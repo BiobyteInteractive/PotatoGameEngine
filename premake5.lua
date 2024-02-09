@@ -1,33 +1,44 @@
--- premake5.lua
-workspace "Snowflake"
-   configurations { "Debug", "Release" }
+    -- premake5.lua
+workspace "PotatoGameEngine"
+    configurations { "Debug", "Release" }
 
 project "Engine"
-   kind "ConsoleApp"
-   language "C++"
-   targetdir "bin/%{cfg.buildcfg}"
+    kind "ConsoleApp"
+    language "C++"
+    targetdir "bin/engine/%{cfg.buildcfg}"
 
-   files { "./engine/**.hpp", "./engine/**.cpp" }
+    filter { "system:windows" }
+    --prebuildcommands { 'Get-ChildItem .\\engine\\ -Recurse -Filter "*.cpp" | ForEach-Object { & .\\makeheaders.exe $_.FullName }' }
 
-   filter "configurations:Debug"
-      defines { "DEBUG" }
-      symbols "On"
+    files { "./engine/**.hpp", "./engine/**.cpp" }
 
-   filter "configurations:Release"
-      defines { "NDEBUG" }
-      optimize "On"
+    includedirs { "./vcpkg/installed/x64-windows/include" }
+    libdirs { "./vcpkg/installed/x64-windows/lib" }
+    --links {  }
+
+    filter "configurations:Debug"
+        defines { "DEBUG" }
+        symbols "On"
+
+    filter "configurations:Release"
+        defines { "NDEBUG" }
+        optimize "On"
 
 project "Sandbox"
-   kind "ConsoleApp"
-   language "C++"
-   targetdir "bin/%{cfg.buildcfg}"
+    kind "WindowedApp"
+    language "C++"
+    targetdir "bin/sandbox/%{cfg.buildcfg}"
 
-   files { "./sandbox/**.hpp", "./sandbox/**.cpp" }
+    files { "./sandbox/**.hpp", "./sandbox/**.cpp" }
 
-   filter "configurations:Debug"
-      defines { "DEBUG" }
-      symbols "On"
+    includedirs { "./vcpkg/installed/x64-windows/include" }
+    libdirs { "./vcpkg/installed/x64-windows/lib" }
+    --links {  }
 
-   filter "configurations:Release"
-      defines { "NDEBUG" }
-      optimize "On"
+    filter "configurations:Debug"
+        defines { "DEBUG" }
+        symbols "On"
+
+    filter "configurations:Release"
+        defines { "NDEBUG" }
+        optimize "On"
