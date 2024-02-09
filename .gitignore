@@ -11,6 +11,7 @@ bin
 obj
 release
 ipch
+.codelite/
 src/scripts.c
 **.lnt
 **.vlstatus
@@ -37,9 +38,16 @@ Makefile
 .settings
 .buildpath
 *.vs
+compile_commands.json
+Sandbox.mk
+Sandbox.txt
+Engine.mk
+
+**/*.hpp
 
 *.bbprojectsettings
 Scratchpad.txt
 Unix Worksheet.worksheet
 project.bbprojectdata
 Premake4.tmproj
+
