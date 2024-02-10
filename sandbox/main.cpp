@@ -1,6 +1,6 @@
 #include <iostream>
+#include <engine.hpp>
 
 int main() {
-    std::cout << "Hello world!";
-    return 0;
+    return engine_main();
 }
