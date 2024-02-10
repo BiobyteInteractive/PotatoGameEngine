@@ -12,6 +12,7 @@ obj
 release
 ipch
 .codelite/
+.cache/
 src/scripts.c
 **.lnt
 **.vlstatus
@@ -42,6 +43,7 @@ compile_commands.json
 Sandbox.mk
 Sandbox.txt
 Engine.mk
+Engine.txt
 
 **/*.hpp
 
