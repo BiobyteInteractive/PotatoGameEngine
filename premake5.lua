@@ -1,4 +1,3 @@
-    -- premake5.lua
 workspace "PotatoGameengine"
     configurations { "Debug", "Release" }
     architecture "x64"

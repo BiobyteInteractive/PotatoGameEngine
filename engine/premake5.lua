@@ -6,13 +6,13 @@ project "engine"
 
     files { "./src/**.hpp", "./src/**.cpp" }
 
-    includedirs { "%{wks.location}/vcpkg/installed/x64-windows/include" }
-    libdirs { "%{wks.location}/vcpkg/installed/x64-windows/lib" }
+    includedirs { "%{wks.location}/vendor/vcpkg/installed/x64-windows/include" }
+    libdirs { "%{wks.location}/vendor/vcpkg/installed/x64-windows/lib" }
     links { "glfw3dll", "bgfx", "bimg", "bx" }
 
     filter { "system:windows" }
         cppdialect "C++20"
-        prebuildcommands { 'PowerShell "Get-ChildItem %{prj.location}\\src\\ -Recurse -Filter "*.cpp" | ForEach-Object { & makeheaders $_.FullName }"' }
+        prebuildcommands { 'PowerShell "Get-ChildItem %{prj.location}\\src\\ -Recurse -Filter "*.cpp" | ForEach-Object { & %{wks.location}/vendor/windows/makeheaders/makeheaders.exe $_.FullName }"' }
         postbuildcommands { "{COPY} ../bin/%{prj.name}/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/*.dll ../bin/sandbox/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" }
         
     filter "configurations:Release"

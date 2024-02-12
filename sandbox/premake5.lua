@@ -7,13 +7,13 @@ project "sandbox"
 
     files { "./src/**.hpp", "./src/**.cpp" }
 
-    includedirs { "%{wks.location}/vcpkg/installed/x64-windows/include", "%{wks.location}/engine/src" }
-    libdirs { "%{wks.location}/vcpkg/installed/x64-windows/lib" }
+    includedirs { "%{wks.location}/vendor/vcpkg/installed/x64-windows/include", "%{wks.location}/engine/src" }
+    libdirs { "%{wks.location}/vendor/vcpkg/installed/x64-windows/lib" }
     links { "engine", "glfw3dll" }
 
     filter { "system:windows" }
         cppdialect "C++20"
-        prebuildcommands { 'PowerShell "Get-ChildItem %{prj.location}\\src\\ -Recurse -Filter "*.cpp" | ForEach-Object { & makeheaders $_.FullName }"' }
+        prebuildcommands { 'PowerShell "Get-ChildItem %{prj.location}\\src\\ -Recurse -Filter "*.cpp" | ForEach-Object { & %{wks.location}/vendor/windows/makeheaders/makeheaders.exe $_.FullName }"' }
 
     filter "configurations:Release"
 		defines
