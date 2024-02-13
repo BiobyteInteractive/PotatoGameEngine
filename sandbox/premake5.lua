@@ -14,7 +14,6 @@ project "sandbox"
     filter { "system:windows" }
         cppdialect "C++20"
         buildoptions { "/Zc:__cplusplus", "/std:c++20" }
-        prebuildcommands { 'PowerShell "Get-ChildItem %{prj.location}\\src\\ -Recurse -Filter "*.cpp" | ForEach-Object { & %{wks.location}/vendor/windows/makeheaders/makeheaders.exe $_.FullName }"' }
 
     filter "configurations:Release"
 		defines
