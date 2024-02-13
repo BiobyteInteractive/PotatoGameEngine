@@ -45,8 +45,6 @@ Sandbox.txt
 Engine.mk
 Engine.txt
 
-**/*.hpp
-
 *.bbprojectsettings
 Scratchpad.txt
 Unix Worksheet.worksheet
