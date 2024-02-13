@@ -6,6 +6,7 @@ $Env:VCPKG_DEFAULT_TRIPLET = "x64-windows"
 .\vendor\vcpkg\vcpkg.exe install miniaudio;
 .\vendor\vcpkg\vcpkg.exe install joltphysics;
 .\vendor\vcpkg\vcpkg.exe install entt;
+.\vendor\vcpkg\vcpkg.exe install enet;
 .\vendor\vcpkg\vcpkg.exe install lua;
 
 # Downloads the latest version of nuklear straight from their github. (The VCPKG version is outdated)
