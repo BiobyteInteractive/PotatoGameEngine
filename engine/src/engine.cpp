@@ -26,7 +26,7 @@ static void glfw_keyCallback(GLFWwindow *window, int key, int scancode, int acti
         glfwSetWindowShouldClose(window, true);
 }
 
-__declspec(dllexport) int engine_main() {
+EXPORT int engine_main() {
 	// Create a GLFW window without an OpenGL context.
 	glfwSetErrorCallback(glfw_errorCallback);
 	if (!glfwInit())
