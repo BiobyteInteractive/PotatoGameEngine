@@ -4,12 +4,26 @@ git submodule update --init --recursive
 export VCPKG_DEFAULT_TRIPLET="x64-linux"
 ./vendor/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
-./vendor/vcpkg/vcpkg install raylib
-./vendor/vcpkg/vcpkg install flecs
-./vendor/vcpkg/vcpkg install enet
-./vendor/vcpkg/vcpkg install box2d
-./vendor/vcpkg/vcpkg install lua
+# Scripting
 ./vendor/vcpkg/vcpkg install toml11
+./vendor/vcpkg/vcpkg install lua
+
+# Networking
+./vendor/vcpkg/vcpkg install enet
+
+# ECS
+./vendor/vcpkg/vcpkg install flecs
+
+# Physics
+./vendor/vcpkg/vcpkg install joltphysics
+
+# Rendering
+./vendor/vcpkg/vcpkg install glm
+./vendor/vcpkg/vcpkg install glad
+./vendor/vcpkg/vcpkg install glfw3
+
+# Audio
+./vendor/vcpkg/vcpkg install miniaudio
 
 mkdir ./build
 cd ./build
