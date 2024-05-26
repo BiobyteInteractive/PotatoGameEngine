@@ -24,6 +24,11 @@ $Env:VCPKG_DEFAULT_TRIPLET = "x64-windows";
 # Audio
 .\vendor\vcpkg\vcpkg.exe install miniaudio;
 
+# Editor
+.\vendor\vcpkg\vcpkg.exe install imgui;
+.\vendor\vcpkg\vcpkg.exe install "imgui[docking-experimental]";
+.\vendor\vcpkg\vcpkg.exe install "imgui[opengl3-binding]";
+
 
 $directoryPath = ".\build"
 if(-not (Test-Path $directoryPath)) {

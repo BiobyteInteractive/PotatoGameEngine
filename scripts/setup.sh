@@ -25,6 +25,11 @@ export VCPKG_DEFAULT_TRIPLET="x64-linux"
 # Audio
 ./vendor/vcpkg/vcpkg install miniaudio
 
+# Editor
+./vendor/vcpkg/vcpkg install imgui
+./vendor/vcpkg/vcpkg install imgui[docking-experimental]
+./vendor/vcpkg/vcpkg install imgui[opengl3-binding]
+
 mkdir ./build
 cd ./build
 cmake .. -G Ninja
