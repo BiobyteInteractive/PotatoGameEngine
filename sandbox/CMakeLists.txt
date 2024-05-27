@@ -15,7 +15,7 @@ endif()
 
 link_directories(
     ${VCPKG_INSTALL_DIR}/lib
-    ${CMAKE_SOURCE_DIR}/build
+    ${CMAKE_SOURCE_DIR}/build/editor
 )
 
 file(GLOB_RECURSE EDITOR_SRC
@@ -26,13 +26,12 @@ file(GLOB_RECURSE EDITOR_SRC
 add_executable(${ProjectName} ${EDITOR_SRC})
 
 target_include_directories( ${ProjectName}
-    PRIVATE ${VCPKG_INSTALL_DIR}/include
-    PRIVATE ${CMAKE_SOURCE_DIR}/engine/src
+    PUBLIC ${VCPKG_INSTALL_DIR}/include
+    PUBLIC ${CMAKE_SOURCE_DIR}/engine/src
 )
 
 target_link_libraries(${ProjectName}
-    PRIVATE engine
-    PRIVATE raylib
+    PUBLIC engine
 )
 
 if (WIN32)

@@ -22,11 +22,15 @@ file(GLOB_RECURSE SPELLBOUND_SRC
     "src/*.h"
 )
 
-add_library(${ProjectName} INTERFACE)
+add_library(${ProjectName} STATIC ${SPELLBOUND_SRC})
+
+target_include_directories( ${ProjectName}
+    PUBLIC ${VCPKG_INSTALL_DIR}/include
+)
 
 target_link_libraries(${ProjectName} 
-    INTERFACE raylib
-    INTERFACE lua
+    PUBLIC glad
+    PUBLIC glfw3dll
 )
 
 if (WIN32)
