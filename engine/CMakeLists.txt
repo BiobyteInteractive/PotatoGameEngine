@@ -17,12 +17,12 @@ link_directories(
     ${VCPKG_INSTALL_DIR}/lib
 )
 
-file(GLOB_RECURSE SPELLBOUND_SRC
+file(GLOB_RECURSE ENGINE_SRC
     "src/*.cpp"
     "src/*.h"
 )
 
-add_library(${ProjectName} STATIC ${SPELLBOUND_SRC})
+add_library(${ProjectName} STATIC ${ENGINE_SRC})
 
 target_include_directories( ${ProjectName}
     PUBLIC ${VCPKG_INSTALL_DIR}/include

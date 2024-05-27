@@ -18,12 +18,12 @@ link_directories(
     ${CMAKE_SOURCE_DIR}/build/editor
 )
 
-file(GLOB_RECURSE EDITOR_SRC
+file(GLOB_RECURSE SANDBOX_SRC
     "src/*.cpp"
     "src/*.h"
 )
 
-add_executable(${ProjectName} ${EDITOR_SRC})
+add_executable(${ProjectName} ${SANDBOX_SRC})
 
 target_include_directories( ${ProjectName}
     PUBLIC ${VCPKG_INSTALL_DIR}/include
