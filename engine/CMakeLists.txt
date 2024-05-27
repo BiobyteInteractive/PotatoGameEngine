@@ -22,7 +22,7 @@ file(GLOB_RECURSE ENGINE_SRC
     "src/*.h"
 )
 
-add_library(${ProjectName} STATIC ${ENGINE_SRC})
+add_library(${ProjectName} SHARED ${ENGINE_SRC})
 
 target_include_directories( ${ProjectName}
     PUBLIC ${VCPKG_INSTALL_DIR}/include
@@ -43,3 +43,10 @@ if (WIN32)
         configure_file(${dll} "${CMAKE_SOURCE_DIR}/build/${filename}" COPYONLY)
     endforeach()
 endif()
+
+add_custom_command(TARGET ${ProjectName} 
+                   POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy
+                           ${CMAKE_SOURCE_DIR}/build/engine/engine.dll
+                           ${CMAKE_SOURCE_DIR}/build/engine.dll
+)

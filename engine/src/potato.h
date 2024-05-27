@@ -2,12 +2,18 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-int InitWindow(int screenWidth, int screenHeight, char* windowTitle);
-bool WindowShouldClose();
+#define DllExport __declspec( dllexport )
 
-void BeginDrawing();
-void EndDrawing();
+#include <GLFW/glfw3.h>
 
-void ClearBackground(int r, int g, int b, int a);
+DllExport int InitWindow(int screenWidth, int screenHeight, char* windowTitle);
+DllExport bool WindowShouldClose();
+
+DllExport void BeginDrawing();
+DllExport void EndDrawing();
+
+DllExport void ClearBackground(int r, int g, int b, int a);
+
+DllExport GLFWwindow* GetWindow();
 
 #endif

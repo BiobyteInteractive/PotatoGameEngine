@@ -1,7 +1,7 @@
-#include "potato.h"
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include "potato.h"
 
 #include <iostream>
 
@@ -16,6 +16,8 @@ int InitWindow(int screenWidth, int screenHeight, char* windowTitle)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -54,8 +56,6 @@ void processInput(GLFWwindow *window)
 // ---------------------------------------------------------------------------------------------
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    // make sure the viewport matches the new window dimensions; note that width and 
-    // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
 
@@ -71,4 +71,8 @@ void EndDrawing() {
 void ClearBackground(int r, int g, int b, int a) {
     glClearColor((float)r/255, (float)g/255, (float)b/255, (float)a/255);
     glClear(GL_COLOR_BUFFER_BIT);
+}
+
+GLFWwindow* GetWindow() {
+    return window;
 }
