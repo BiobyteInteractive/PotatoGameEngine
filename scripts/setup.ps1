@@ -26,8 +26,9 @@ $Env:VCPKG_DEFAULT_TRIPLET = "x64-windows";
 
 # Editor
 .\vendor\vcpkg\vcpkg.exe install imgui;
-.\vendor\vcpkg\vcpkg.exe install "imgui[docking-experimental]";
-.\vendor\vcpkg\vcpkg.exe install "imgui[opengl3-binding]";
+.\vendor\vcpkg\vcpkg.exe install --recurse imgui[docking-experimental];
+.\vendor\vcpkg\vcpkg.exe install --recurse imgui[opengl3-binding];
+.\vendor\vcpkg\vcpkg.exe install --recurse imgui[glfw-binding];
 
 
 $directoryPath = ".\build"

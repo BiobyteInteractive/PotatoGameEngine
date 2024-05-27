@@ -27,8 +27,9 @@ export VCPKG_DEFAULT_TRIPLET="x64-linux"
 
 # Editor
 ./vendor/vcpkg/vcpkg install imgui
-./vendor/vcpkg/vcpkg install imgui[docking-experimental]
-./vendor/vcpkg/vcpkg install imgui[opengl3-binding]
+./vendor/vcpkg/vcpkg install --recurse imgui[docking-experimental]
+./vendor/vcpkg/vcpkg install --recurse imgui[opengl3-binding]
+./vendor/vcpkg/vcpkg install --recurse imgui[glfw-binding]
 
 mkdir ./build
 cd ./build
