@@ -32,6 +32,7 @@ target_include_directories( ${ProjectName}
 
 target_link_libraries(${ProjectName}
     PUBLIC engine
+    PUBLIC imgui
 )
 
 if (WIN32)
