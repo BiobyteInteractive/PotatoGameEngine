@@ -24,6 +24,10 @@ $Env:VCPKG_DEFAULT_TRIPLET = "x64-windows";
 # Audio
 .\vendor\vcpkg\vcpkg.exe install miniaudio;
 
+# Misc
+.\vendor\vcpkg\vcpkg.exe install sqlite3;
+.\vendor\vcpkg\vcpkg.exe install efsw;
+
 # Editor
 .\vendor\vcpkg\vcpkg.exe install imgui;
 .\vendor\vcpkg\vcpkg.exe install --recurse imgui[docking-experimental];

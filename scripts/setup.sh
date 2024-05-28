@@ -25,6 +25,10 @@ export VCPKG_DEFAULT_TRIPLET="x64-linux"
 # Audio
 ./vendor/vcpkg/vcpkg install miniaudio
 
+# Misc
+./vendor/vcpkg/vcpkg install sqlite3
+./vendor/vcpkg/vcpkg install efsw
+
 # Editor
 ./vendor/vcpkg/vcpkg install imgui
 ./vendor/vcpkg/vcpkg install --recurse imgui[docking-experimental]
