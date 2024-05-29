@@ -1,4 +1,4 @@
-#include "asset_manager.h"
+#include "AssetDatabase.h"
 
 #include <iostream>
 #include <sqlite3.h>
@@ -23,7 +23,6 @@ int InitAssetDatabase() {
     char* zErrMsg = 0;
     int rc;
     const char* sql;
-    const char* data = "Callback function called";
 
     rc = sqlite3_open("asset.db", &asset_db);
 
@@ -53,3 +52,23 @@ int InitAssetDatabase() {
 
     return 0;
 }
+
+class FileWatcher : public efsw::FileWatchListener {
+    public:
+        void handleFileAction( efsw::WatchID watchid, const std::string& dir,
+                               const std::string& filename, efsw::Action action,
+                               std::string oldFilename) override {
+            switch (action) {
+                case efsw::Actions::Add:
+                    break;
+                case efsw::Actions::Modified:
+                    break;
+                case efsw::Actions::Moved:
+                    break;
+                case efsw::Actions::Delete:
+                    break;
+                default:
+                    break;
+            }
+        }
+};

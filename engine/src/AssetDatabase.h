@@ -4,6 +4,8 @@
 
 #define DllExport __declspec( dllexport )
 
-void InitAssetManager();
+#include <efsw/efsw.hpp>
+
+DllExport void InitAssetManager();
 
 #endif
