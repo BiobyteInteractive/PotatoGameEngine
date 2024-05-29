@@ -1,4 +1,5 @@
-#include <potato.h>
+#include <Engine.h>
+#include <AssetDatabase.h>
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>
@@ -12,11 +13,14 @@ int main() {
     InitWindow(screenWidth, screenHeight, (char*)"Potato Game Engine Editor");
     GLFWwindow* window = GetWindow();
 
+    //InitAssetManager();
+
     const char* glsl_version = "#version 330";
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     ImGui::StyleColorsDark();
 
@@ -29,6 +33,26 @@ int main() {
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
+
+            if (ImGui::BeginMainMenuBar()) {
+                if (ImGui::BeginMenu("File")) {
+                    if (ImGui::MenuItem("Create")) { 
+                    }
+                    if (ImGui::MenuItem("Open", "Ctrl+O")) { 
+                    }
+                    if (ImGui::MenuItem("Save", "Ctrl+S")) {
+                    }
+                    if (ImGui::MenuItem("Save as..")) { 
+                    }
+                    if (ImGui::MenuItem("Quit", "Ctrl+Q")){ 
+                        glfwSetWindowShouldClose(window, GLFW_TRUE);
+                    }
+                ImGui::EndMenu();
+                }
+                ImGui::EndMainMenuBar();
+            }
+
+            ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
             ClearBackground(255, 0, 255, 255);
             ImGui::ShowDemoWindow(&show_demo_window);
