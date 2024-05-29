@@ -1,15 +1,11 @@
 #include "AssetDatabase.h"
 
-#include <iostream>
+#include "efsw/efsw.hpp"
 #include <sqlite3.h>
 
+#include <iostream>
+
 sqlite3* asset_db;
-
-int InitAssetDatabase();
-
-void InitAssetManager() {
-    while (InitAssetDatabase()) {}
-}
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName){
     for(int i = 0; i<argc; i++){
@@ -19,7 +15,8 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
     return 0;
 }
 
-int InitAssetDatabase() {
+AssetDatabase::AssetDatabase(std::string& directory) {
+    // Initialize SQLite3 database
     char* zErrMsg = 0;
     int rc;
     const char* sql;
@@ -28,7 +25,7 @@ int InitAssetDatabase() {
 
     if (rc) {
         std::cerr << "Can't open database: " << sqlite3_errmsg(asset_db) << std::endl;
-        return 1;
+        abort();
     } else {
         std::cout << "Opened database successfully" << std::endl;
     }
@@ -45,30 +42,52 @@ int InitAssetDatabase() {
     if( rc != SQLITE_OK ){
         std::cerr << "SQL error: " << zErrMsg << std::endl;
         sqlite3_free(zErrMsg);
-        return 1;
+        abort();
     } else {
         std::cout << "Records created successfully" << std::endl;
     }
 
-    return 0;
+    // Initialize the file watcher
+    this->file_watcher = new efsw::FileWatcher();
+    this->file_update_listener = new FileUpdateListener();
+
+    this->watch_id = this->file_watcher->addWatch(directory, this->file_update_listener, true);
+    this->file_watcher->watch();
 }
 
-class FileWatcher : public efsw::FileWatchListener {
-    public:
-        void handleFileAction( efsw::WatchID watchid, const std::string& dir,
-                               const std::string& filename, efsw::Action action,
-                               std::string oldFilename) override {
-            switch (action) {
-                case efsw::Actions::Add:
-                    break;
-                case efsw::Actions::Modified:
-                    break;
-                case efsw::Actions::Moved:
-                    break;
-                case efsw::Actions::Delete:
-                    break;
-                default:
-                    break;
-            }
-        }
-};
+AssetDatabase::~AssetDatabase() {
+    this->file_watcher->removeWatch(this->watch_id);
+    
+    char* zErrMsg = 0;
+    int rc;
+    const char* sql = "DELETE * FROM assets WHERE DELETED = TRUE";
+    
+    rc = sqlite3_exec(asset_db, sql, callback, 0, &zErrMsg);
+    if( rc != SQLITE_OK ){
+        std::cerr << "SQL error: " << zErrMsg << std::endl;
+        sqlite3_free(zErrMsg);
+        abort();
+    } else {
+        std::cout << "Asset Database cleanup successful" << std::endl;
+    }
+}
+
+void FileUpdateListener::handleFileAction(efsw::WatchID watchid, const std::string& dir, const std::string& filename, efsw::Action action, std::string oldFilename) {
+    switch ( action ) {
+        case efsw::Actions::Add:
+            std::cout << "DIR (" << dir << ") FILE (" << filename << ") has event Added" << std::endl;
+            break;
+        case efsw::Actions::Delete:
+            std::cout << "DIR (" << dir << ") FILE (" << filename << ") has event Delete" << std::endl;
+            break;
+        case efsw::Actions::Modified:
+            std::cout << "DIR (" << dir << ") FILE (" << filename << ") has event Modified" << std::endl;
+            break;
+        case efsw::Actions::Moved:
+            std::cout << "DIR (" << dir << ") FILE (" << filename << ") has event Moved from (" << oldFilename << ")" << std::endl;
+            break;
+        default:
+            std::cout << "Should never happen!" << std::endl;
+            abort();
+    }
+}
