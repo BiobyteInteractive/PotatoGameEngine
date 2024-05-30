@@ -13,6 +13,8 @@ int main() {
     InitWindow(screenWidth, screenHeight, (char*)"Potato Game Engine Editor");
     GLFWwindow* window = GetWindow();
 
+    AssetDatabase* asset_db = new AssetDatabase("C:\\Users\\Pedro Bentes\\Desktop\\GameEngineProject\\assets");
+
     //InitAssetManager();
 
     const char* glsl_version = "#version 330";
