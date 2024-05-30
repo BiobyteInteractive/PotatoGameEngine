@@ -26,6 +26,7 @@ add_library(${ProjectName} SHARED ${ENGINE_SRC})
 
 target_include_directories( ${ProjectName}
     PUBLIC ${VCPKG_INSTALL_DIR}/include
+    PUBLIC ${efsw_SOURCE_DIR}/include
 )
 
 target_link_libraries(${ProjectName} 
@@ -51,4 +52,11 @@ add_custom_command(TARGET ${ProjectName}
                    COMMAND ${CMAKE_COMMAND} -E copy
                            ${CMAKE_SOURCE_DIR}/build/engine/engine.dll
                            ${CMAKE_SOURCE_DIR}/build/engine.dll
+)
+
+add_custom_command(TARGET ${ProjectName} 
+                   POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy
+                           ${CMAKE_SOURCE_DIR}/build/_deps/efsw-build/efsw.dll
+                           ${CMAKE_SOURCE_DIR}/build/efsw.dll
 )

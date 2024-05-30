@@ -28,6 +28,7 @@ add_executable(${ProjectName} ${EDITOR_SRC})
 target_include_directories( ${ProjectName}
     PUBLIC ${VCPKG_INSTALL_DIR}/include
     PUBLIC ${CMAKE_SOURCE_DIR}/engine/src
+    PUBLIC ${efsw_SOURCE_DIR}/include
 )
 
 target_link_libraries(${ProjectName}

@@ -26,7 +26,6 @@ $Env:VCPKG_DEFAULT_TRIPLET = "x64-windows";
 
 # Misc
 .\vendor\vcpkg\vcpkg.exe install sqlite3;
-.\vendor\vcpkg\vcpkg.exe install efsw;
 
 # Editor
 .\vendor\vcpkg\vcpkg.exe install imgui;
