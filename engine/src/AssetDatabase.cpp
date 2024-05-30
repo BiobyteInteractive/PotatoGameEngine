@@ -15,7 +15,7 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName){
     return 0;
 }
 
-AssetDatabase::AssetDatabase(std::string& directory) {
+AssetDatabase::AssetDatabase(std::string directory) {
     // Initialize SQLite3 database
     char* zErrMsg = 0;
     int rc;

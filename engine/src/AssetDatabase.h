@@ -23,7 +23,7 @@ class FileUpdateListener : public efsw::FileWatchListener {
 
 class DllExport AssetDatabase {
     public:
-        AssetDatabase(std::string& directory);
+        AssetDatabase(std::string directory);
         ~AssetDatabase();
 
         std::unique_ptr<Asset> GetAssetById(int id);
