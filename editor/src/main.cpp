@@ -2,18 +2,30 @@
 #include <AssetDatabase.h>
 
 #include <GLFW/glfw3.h>
+#include <filesystem>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+#include <iostream>
+
+#ifdef _WIN32
+    #include <Windows.h>
+    #include <winbase.h>
+#endif
 
 int main() {
+    #ifdef _WIN32
+        SetDllDirectory(std::filesystem::current_path().string().c_str());
+        std::filesystem::current_path("C:\\Users\\Pedro Bentes\\Desktop\\GameEngineProject");
+    #endif
+
     const int screenWidth = 800;
     const int screenHeight = 450;
 
     InitWindow(screenWidth, screenHeight, (char*)"Potato Game Engine Editor");
     GLFWwindow* window = GetWindow();
 
-    AssetDatabase* asset_db = new AssetDatabase("C:\\Users\\Pedro Bentes\\Desktop\\GameEngineProject\\assets");
+    AssetDatabase* asset_db = new AssetDatabase((std::filesystem::current_path() / "assets").string());
 
     //InitAssetManager();
 
@@ -23,6 +35,7 @@ int main() {
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    // Todo: io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     ImGui::StyleColorsDark();
 
@@ -64,6 +77,8 @@ int main() {
 
         EndDrawing();
     }
+
+    delete asset_db;
     
     return 0;
 }
