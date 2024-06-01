@@ -1,21 +1,16 @@
 #pragma once
-#include <string>
-#ifndef ASSET_MANAGER_H
-#define ASSET_MANAGER_H
+#ifndef ASSET_DATABASE_H
+#define ASSET_DATABASE_H
 
 #define DllExport __declspec( dllexport )
 
-#include <efsw/efsw.hpp>
-#include <sqlite3.h>
+#include "Asset.h"
 
 #include <memory>
-#include <vector>
+#include <string>
 
-DllExport void InitAssetManager();
-
-typedef struct Asset {
-
-} Asset;
+#include <efsw/efsw.hpp>
+#include <sqlite3.h>
 
 class DllExport AssetDatabase : public efsw::FileWatchListener {
     public:
@@ -24,10 +19,7 @@ class DllExport AssetDatabase : public efsw::FileWatchListener {
 
         void handleFileAction(efsw::WatchID watchid, const std::string& dir, const std::string& filename, efsw::Action action, std::string oldFilename) override;
 
-        std::unique_ptr<Asset> GetAssetById(int id);
-        std::unique_ptr<Asset> GetAssetByPath(std::string path);
-        std::unique_ptr<std::vector<Asset>> GetAssetsByDirectory(std::string directory);
-        std::unique_ptr<std::vector<Asset>> GetAssetsByExtension(std::string extension);
+        std::shared_ptr<std::vector<Asset>> GetAssetsByExtension(std::string query);
 
     private:
         void InsertAsset(std::string directory, std::string filename);
@@ -36,8 +28,8 @@ class DllExport AssetDatabase : public efsw::FileWatchListener {
         void Cleanup();
         
     private:
-        sqlite3* asset_db;
-        efsw::FileWatcher* file_watcher;
-        efsw::WatchID watch_id;
+        sqlite3* m_AssetDb;
+        efsw::FileWatcher* m_FileWatcher;
+        efsw::WatchID m_WatchId;
 };
 #endif

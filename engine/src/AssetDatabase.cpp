@@ -1,10 +1,10 @@
 #include "AssetDatabase.h"
 
-#include "efsw/efsw.hpp"
 #include <filesystem>
-#include <sqlite3.h>
-
 #include <iostream>
+
+#include "efsw/efsw.hpp"
+#include <sqlite3.h>
 
 std::string normalizePath(const std::string& pathString) {
     std::filesystem::path pathObj(pathString);
@@ -33,10 +33,10 @@ AssetDatabase::AssetDatabase(std::string directory) {
     int rc;
     const char* sql;
 
-    rc = sqlite3_open("asset.db", &asset_db);
+    rc = sqlite3_open("asset.db", &m_AssetDb);
 
     if (rc) {
-        std::cerr << "Can't open database: " << sqlite3_errmsg(asset_db) << std::endl;
+        std::cerr << "Can't open database: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         abort();
     } else {
         std::cout << "Opened database successfully" << std::endl;
@@ -51,7 +51,7 @@ AssetDatabase::AssetDatabase(std::string directory) {
           "UNIQUE(PATH, DIRECTORY)" \
           ");";
 
-    rc = sqlite3_exec(asset_db, sql, callback, 0, &zErrMsg);
+    rc = sqlite3_exec(m_AssetDb, sql, callback, 0, &zErrMsg);
     if( rc != SQLITE_OK ){
         std::cerr << "SQL error: " << zErrMsg << std::endl;
         sqlite3_free(zErrMsg);
@@ -63,19 +63,19 @@ AssetDatabase::AssetDatabase(std::string directory) {
     this->Cleanup();
 
     // Initialize the file watcher
-    this->file_watcher = new efsw::FileWatcher();
+    this->m_FileWatcher = new efsw::FileWatcher();
 
-    this->watch_id = this->file_watcher->addWatch(directory, this, true);
+    this->m_WatchId = this->m_FileWatcher->addWatch(directory, this, true);
     #ifdef _WIN32
         //this->file_watcher->removeWatch(this->watch_id);
         //this->watch_id = this->file_watcher->addWatch(directory, this->file_update_listener, true, { (BufferSize, 128*1024) });
     #endif
 
-    this->file_watcher->watch();
+    this->m_FileWatcher->watch();
 }
 
 AssetDatabase::~AssetDatabase() {
-    this->file_watcher->removeWatch(this->watch_id);
+    this->m_FileWatcher->removeWatch(this->m_WatchId);
     this->Cleanup();    
 }
 
@@ -84,7 +84,7 @@ void AssetDatabase::Cleanup() {
     int rc;
     const char* sql = "DELETE FROM assets WHERE DELETED = TRUE";
     
-    rc = sqlite3_exec(asset_db, sql, callback, 0, &zErrMsg);
+    rc = sqlite3_exec(m_AssetDb, sql, callback, 0, &zErrMsg);
     if( rc != SQLITE_OK ){
         std::cerr << "SQL error: " << zErrMsg << std::endl;
         sqlite3_free(zErrMsg);
@@ -113,9 +113,9 @@ void AssetDatabase::InsertAsset(std::string directory, std::string filename) {
 
     // Prepare the SQL statement
     sqlite3_stmt* stmt;
-    rc = sqlite3_prepare_v2(asset_db, sql, -1, &stmt, NULL);
+    rc = sqlite3_prepare_v2(m_AssetDb, sql, -1, &stmt, NULL);
     if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << sqlite3_errmsg(asset_db) << std::endl;
+        std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         abort();
     }
 
@@ -127,7 +127,7 @@ void AssetDatabase::InsertAsset(std::string directory, std::string filename) {
     // Execute the SQL statement
     rc = sqlite3_step(stmt);
     if (rc != SQLITE_DONE) {
-        std::cerr << "SQL error: " << sqlite3_errmsg(asset_db) << std::endl;
+        std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         sqlite3_finalize(stmt);
         abort();
     } else {
@@ -165,9 +165,9 @@ void AssetDatabase::UpdateAsset(std::string directory, std::string filename, std
 
     // Prepare the SQL statement
     sqlite3_stmt* stmt;
-    rc = sqlite3_prepare_v2(asset_db, sql, -1, &stmt, NULL);
+    rc = sqlite3_prepare_v2(m_AssetDb, sql, -1, &stmt, NULL);
     if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << sqlite3_errmsg(asset_db) << std::endl;
+        std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         abort();
     }
 
@@ -184,7 +184,7 @@ void AssetDatabase::UpdateAsset(std::string directory, std::string filename, std
     // Execute the SQL statement
     rc = sqlite3_step(stmt);
     if (rc != SQLITE_DONE) {
-        std::cerr << "SQL error: " << sqlite3_errmsg(asset_db) << std::endl;
+        std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         sqlite3_finalize(stmt);
         abort();
     } else {
@@ -212,9 +212,9 @@ void AssetDatabase::DeleteAsset(std::string directory, std::string filename) {
 
     // Prepare the SQL statement
     sqlite3_stmt* stmt;
-    rc = sqlite3_prepare_v2(asset_db, sql, -1, &stmt, NULL);
+    rc = sqlite3_prepare_v2(m_AssetDb, sql, -1, &stmt, NULL);
     if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << sqlite3_errmsg(asset_db) << std::endl;
+        std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         abort();
     }
 
@@ -225,7 +225,7 @@ void AssetDatabase::DeleteAsset(std::string directory, std::string filename) {
     // Execute the SQL statement
     rc = sqlite3_step(stmt);
     if (rc != SQLITE_DONE) {
-        std::cerr << "SQL error: " << sqlite3_errmsg(asset_db) << std::endl;
+        std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         sqlite3_finalize(stmt);
         abort();
     } else {
