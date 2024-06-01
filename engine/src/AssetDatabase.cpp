@@ -2,7 +2,6 @@
 
 #include "efsw/efsw.hpp"
 #include <filesystem>
-#include <memory>
 #include <sqlite3.h>
 
 #include <iostream>
