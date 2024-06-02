@@ -4,13 +4,13 @@
 
 #define DllExport __declspec( dllexport )
 
-#include "Asset.h"
+#include <efsw/efsw.hpp>
+#include <sqlite3.h>
 
 #include <memory>
 #include <string>
 
-#include <efsw/efsw.hpp>
-#include <sqlite3.h>
+#include "Asset.h"
 
 class DllExport AssetDatabase : public efsw::FileWatchListener {
     public:

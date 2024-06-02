@@ -1,10 +1,10 @@
-#include "AssetDatabase.h"
+#include "efsw/efsw.hpp"
+#include <sqlite3.h>
 
 #include <filesystem>
 #include <iostream>
 
-#include "efsw/efsw.hpp"
-#include <sqlite3.h>
+#include "AssetDatabase.h"
 
 std::string normalizePath(const std::string& pathString) {
     std::filesystem::path pathObj(pathString);

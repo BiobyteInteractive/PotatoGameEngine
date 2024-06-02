@@ -1,10 +1,11 @@
 #pragma once
-#include <cstddef>
-#include <string>
 #ifndef ASSET_H
 #define ASSET_H
 
 #define DllExport __declspec( dllexport )
+
+#include <cstddef>
+#include <string>
 
 class DllExport Asset {
     public:
