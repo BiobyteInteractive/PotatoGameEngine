@@ -8,7 +8,7 @@ $Env:VCPKG_DEFAULT_TRIPLET = "x64-windows";
 .\vendor\vcpkg\vcpkg.exe install lua;
 
 # Networking
-.\vendor\vcpkg\vcpkg.exe install enet;
+.\vendor\vcpkg\vcpkg.exe install entt;
 
 # ECS
 .\vendor\vcpkg\vcpkg.exe install flecs;
