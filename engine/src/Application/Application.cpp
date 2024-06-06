@@ -1,4 +1,5 @@
 #include <float.h>
+#include <functional>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -6,6 +7,7 @@
 #include <string>
 
 #include "Application.h"
+#include "../Renderer/Renderer.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
@@ -35,6 +37,8 @@ Application::Application(int screenWidth, int screenHeight, std::string windowTi
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
     }
+
+    this->m_Renderer = new Renderer();
 }
 
 Application::~Application() {
@@ -43,4 +47,18 @@ Application::~Application() {
 
 GLFWwindow* Application::GetWindow() {
     return this->m_Window;
+}
+
+void Application::Update(std::function<void()> update) {
+    while(!this->WindowShouldClose()) {
+        update();
+    }
+}
+
+bool Application::WindowShouldClose() {
+    return glfwWindowShouldClose(this->m_Window);
+}
+
+void Application::CloseWindow() {
+    glfwSetWindowShouldClose(this->m_Window, 1);
 }

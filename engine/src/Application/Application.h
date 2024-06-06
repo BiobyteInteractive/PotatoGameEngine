@@ -1,11 +1,14 @@
 #pragma once
-#ifndef APPLICATION_H
-#define APPLICATION_H
+#ifndef ENGINE_APPLICATION_H
+#define ENGINE_APPLICATION_H
 
 #define DllExport __declspec( dllexport )
 
+#include "../Renderer/Renderer.h"
+
 #include <GLFW/glfw3.h>
 
+#include <functional>
 #include <string>
 
 class DllExport Application {
@@ -13,10 +16,12 @@ class DllExport Application {
         Application(int screenWidth, int screenHeight, std::string windowTitle);
         ~Application();
 
+        void  Update(std::function<void()> update);
         GLFWwindow* GetWindow();
-    private:
-        void FramebufferSizeCallback(GLFWwindow* window, int width, int height);
-        void ProcessInput();
+        bool WindowShouldClose();
+        void CloseWindow();
+
+        Renderer*   m_Renderer;
     private:
         GLFWwindow* m_Window;
 };
