@@ -1,5 +1,6 @@
-#include <Engine.h>
+#include <Application/Application.h>
 #include <Assets/AssetDatabase.h>
+#include <Renderer/Renderer.h>
 
 #include <GLFW/glfw3.h>
 #include <filesystem>
@@ -21,8 +22,8 @@ int main() {
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    InitWindow(screenWidth, screenHeight, (char*)"Potato Game Engine Editor");
-    GLFWwindow* window = GetWindow();
+    Application* app = new Application(screenWidth, screenHeight, (char*)"Potato Game Engine Editor");
+    GLFWwindow* window = app->GetWindow();
 
     AssetDatabase* asset_db = new AssetDatabase((std::filesystem::current_path() / "assets").string());
 
@@ -41,9 +42,11 @@ int main() {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
+    Renderer* renderer = app->m_Renderer;
+
     bool show_demo_window = true;
-    while(!WindowShouldClose()) {
-        BeginDrawing();
+    while(!app->WindowShouldClose()) {
+        renderer->BeginDrawing(window);
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
@@ -68,13 +71,13 @@ int main() {
 
             ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
-            ClearBackground(255, 0, 255, 255);
+            renderer->ClearBackground(255, 0, 255, 255);
             ImGui::ShowDemoWindow(&show_demo_window);
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        EndDrawing();
+        renderer->EndDrawing(window);
     }
 
     delete asset_db;
