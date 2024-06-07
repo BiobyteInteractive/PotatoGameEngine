@@ -19,11 +19,10 @@ class DllExport Application {
         void  Update(std::function<void()> update);
         GLFWwindow* GetWindow();
         bool WindowShouldClose();
-        void CloseWindow();
+        void CloseApplication();
 
         Renderer*   m_Renderer;
     private:
-        GLFWwindow* m_Window;
 };
 
 #endif
