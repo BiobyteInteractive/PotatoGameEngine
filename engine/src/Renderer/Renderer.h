@@ -6,15 +6,18 @@
 
 #include <GLFW/glfw3.h>
 
+#include <string>
+
 class DllExport Renderer {
     public:
-        Renderer() = default;
-        ~Renderer() = default;
+        Renderer(int screenWidth, int screenHeight, std::string windowTitle);
+        ~Renderer();
 
         void BeginDrawing(GLFWwindow* window);
         void ClearBackground(int r, int g, int b, int a);
         void EndDrawing(GLFWwindow* window);
-    private:
+    public:
+        GLFWwindow* m_Window;
 };
 
 #endif
