@@ -21,7 +21,6 @@ export VCPKG_DEFAULT_TRIPLET="x64-linux"
 ./vendor/vcpkg/vcpkg install glm
 ./vendor/vcpkg/vcpkg install glad
 ./vendor/vcpkg/vcpkg install glfw3
-./vendor/vcpkg/vcpkg install raylib
 
 # Audio
 ./vendor/vcpkg/vcpkg install miniaudio

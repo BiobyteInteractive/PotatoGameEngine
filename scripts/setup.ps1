@@ -20,7 +20,6 @@ $Env:VCPKG_DEFAULT_TRIPLET = "x64-windows";
 .\vendor\vcpkg\vcpkg.exe install glm;
 .\vendor\vcpkg\vcpkg.exe install glad;
 .\vendor\vcpkg\vcpkg.exe install glfw3;
-.\vendor\vcpkg\vcpkg.exe install raylib;
 
 # Audio
 .\vendor\vcpkg\vcpkg.exe install miniaudio;
