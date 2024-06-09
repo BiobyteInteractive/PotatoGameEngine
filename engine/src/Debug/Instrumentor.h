@@ -2,23 +2,34 @@
 #ifndef INSTRUMENTOR_H
 #define INSTRUMENTOR_H
 
+#define DllExport __declspec( dllexport )
+
 #include <chrono>
 #include <fstream>
 #include <string>
 
-struct ProfileResult
+#define PROFILING 1
+#if PROFILING
+#define PROFILE_SCOPE(name) InstrumentationTimer timer##__LINE__(name)
+#define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCSIG__) InstrumentationTimer timer##__LINE__(name)
+#else
+#define PROFILE_SCOPE(name)
+#define PROFILE_FUNCTION()
+#endif
+
+struct DllExport ProfileResult
 {
     std::string Name;
     long long Start, End;
     uint32_t ThreadID;
 };
 
-struct InstrumentationSession
+struct DllExport InstrumentationSession
 {
     std::string Name;
 };
 
-class Instrumentor
+class DllExport Instrumentor
 {
 private:
     InstrumentationSession* m_CurrentSession;
@@ -35,7 +46,7 @@ public:
     static Instrumentor& Get();
 };
 
-class InstrumentationTimer
+class DllExport InstrumentationTimer
 {
 public:
     InstrumentationTimer(const char* name);
