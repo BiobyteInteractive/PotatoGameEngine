@@ -38,9 +38,7 @@ AssetDatabase::AssetDatabase(std::string directory) {
     if (rc) {
         std::cerr << "Can't open database: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         abort();
-    } else {
-        std::cout << "Opened database successfully" << std::endl;
-    }
+    } 
 
     sql = "CREATE TABLE IF NOT EXISTS assets(" \
           "ID        INTEGER PRIMARY KEY AUTOINCREMENT," \
@@ -56,20 +54,13 @@ AssetDatabase::AssetDatabase(std::string directory) {
         std::cerr << "SQL error: " << zErrMsg << std::endl;
         sqlite3_free(zErrMsg);
         abort();
-    } else {
-        std::cout << "Records created successfully" << std::endl;
     }
 
     this->Cleanup();
 
     // Initialize the file watcher
     this->m_FileWatcher = new efsw::FileWatcher();
-
     this->m_WatchId = this->m_FileWatcher->addWatch(directory, this, true);
-    #ifdef _WIN32
-        //this->file_watcher->removeWatch(this->watch_id);
-        //this->watch_id = this->file_watcher->addWatch(directory, this->file_update_listener, true, { (BufferSize, 128*1024) });
-    #endif
 
     this->m_FileWatcher->watch();
 }
@@ -89,8 +80,6 @@ void AssetDatabase::Cleanup() {
         std::cerr << "SQL error: " << zErrMsg << std::endl;
         sqlite3_free(zErrMsg);
         abort();
-    } else {
-        std::cout << "Asset Database cleanup successful" << std::endl;
     }
 }
 
@@ -130,8 +119,6 @@ void AssetDatabase::InsertAsset(std::string directory, std::string filename) {
         std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         sqlite3_finalize(stmt);
         abort();
-    } else {
-        std::cout << "Asset inserted or updated successfully" << std::endl;
     }
 
     // Clean up
@@ -171,8 +158,6 @@ void AssetDatabase::UpdateAsset(std::string directory, std::string filename, std
         abort();
     }
 
-    std::cout << "Filename: " << filename << "\nRelative directory: " << relative_directory << "\nExtension: " << extension << "\nOld Relative Directory: " << old_relative_directory << "\nOld Filename: " << old_filename << std::endl;
-
     // Bind the parameters to the SQL statement
     sqlite3_bind_text(stmt, 1, filename.c_str(), -1, SQLITE_STATIC);
     sqlite3_bind_text(stmt, 2, relative_directory.c_str(), -1, SQLITE_STATIC);
@@ -187,9 +172,7 @@ void AssetDatabase::UpdateAsset(std::string directory, std::string filename, std
         std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         sqlite3_finalize(stmt);
         abort();
-    } else {
-        std::cout << "Asset inserted or updated successfully" << std::endl;
-    }
+    } 
 
     // Clean up
     sqlite3_finalize(stmt);
@@ -228,9 +211,7 @@ void AssetDatabase::DeleteAsset(std::string directory, std::string filename) {
         std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
         sqlite3_finalize(stmt);
         abort();
-    } else {
-        std::cout << "Asset inserted or updated successfully" << std::endl;
-    }
+    } 
 
     // Clean up
     sqlite3_finalize(stmt);
@@ -239,18 +220,15 @@ void AssetDatabase::DeleteAsset(std::string directory, std::string filename) {
 void AssetDatabase::handleFileAction(efsw::WatchID watchid, const std::string& dir, const std::string& filename, efsw::Action action, std::string oldFilename) {
     switch ( action ) {
         case efsw::Actions::Add:
-            std::cout << "DIR (" << dir << ") FILE (" << filename << ") has event Added" << std::endl;
             this->InsertAsset(dir, filename);
             break;
         case efsw::Actions::Delete:
-            std::cout << "DIR (" << dir << ") FILE (" << filename << ") has event Delete" << std::endl;
             this->DeleteAsset(dir, filename);
             break;
         case efsw::Actions::Modified:
             std::cout << "DIR (" << dir << ") FILE (" << filename << ") has event Modified" << std::endl;
             break;
         case efsw::Actions::Moved:
-            std::cout << "DIR (" << dir << ") FILE (" << filename << ") has event Moved from (" << oldFilename << ")" << std::endl;
             this->UpdateAsset(dir, filename, oldFilename);
             break;
         default:
