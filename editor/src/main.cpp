@@ -1,5 +1,6 @@
-#include <Core/Application.h>
 #include <Assets/AssetDatabase.h>
+#include <Core/Application.h>
+#include <Debug/Logger.h>
 #include <Renderer/Renderer.h>
 
 #include <GLFW/glfw3.h>
