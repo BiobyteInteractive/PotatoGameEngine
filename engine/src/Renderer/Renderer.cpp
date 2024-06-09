@@ -4,8 +4,6 @@
 #include "../Debug/Logger.h"
 #include "Renderer.h"
 
-#include <iostream>
-
 void processInput(GLFWwindow *window)
 {
     //if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
