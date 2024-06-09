@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "../Debug/Logger.h"
 #include "Renderer.h"
 
 #include <iostream>
@@ -29,7 +30,7 @@ Renderer::Renderer(int screenWidth, int screenHeight, std::string windowTitle) {
 
     this->m_Window = glfwCreateWindow(screenWidth, screenHeight, windowTitle.c_str(), NULL, NULL);
     if(this->m_Window == NULL) {
-        std::cout << "Failed to create GLFW window" << std::endl;
+        Logger::GetInstance().Error("Failed to create GLFW window");
         glfwTerminate();
     }
     glfwMakeContextCurrent(this->m_Window);
@@ -37,7 +38,7 @@ Renderer::Renderer(int screenWidth, int screenHeight, std::string windowTitle) {
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cout << "Failed to initialize GLAD" << std::endl;
+        Logger::GetInstance().Error("Failed to initialize GLAD");
     }
 }
 
