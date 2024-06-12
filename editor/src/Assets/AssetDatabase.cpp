@@ -236,3 +236,7 @@ void AssetDatabase::handleFileAction(efsw::WatchID watchid, const std::string& d
             abort();
     }
 }
+
+void AssetDatabase::ScanFolder() {
+
+}
