@@ -29,6 +29,12 @@ Window::Window(int screenWidth, int screenHeight, std::string windowTitle) {
     }
     
     glfwSetFramebufferSizeCallback(this->m_Window, framebuffer_size_callback);
+
+    glfwMakeContextCurrent(this->m_Window);
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        Logger::GetInstance().Error("Failed to initialize GLAD");
+    }
 }
 
 Window::~Window() {
