@@ -6,18 +6,24 @@
 
 #include <GLFW/glfw3.h>
 
-#include <string>
+#include "../Core/Window.h"
 
-class DllExport Renderer {
+class DllExport RendererAPI {
     public:
-        Renderer(int screenWidth, int screenHeight, std::string windowTitle);
-        ~Renderer();
+        enum class API {
+            None   = 0,
+            OpenGL = 1
+        };
+    public:
+        ~RendererAPI() = default;
 
-        void BeginDrawing(GLFWwindow* window);
         void ClearBackground(int r, int g, int b, int a);
         void EndDrawing(GLFWwindow* window);
     public:
         GLFWwindow* m_Window;
+    
+    private:
+        static API s_API;
 };
 
 #endif
