@@ -1,3 +1,7 @@
+/*
+    The RendererAPI should be an interface to be implemented by the different APIs (OpenGL, Vulkan, DirectX, Metal, WebGL, WebGPU).
+*/
+
 #pragma once
 #ifndef RENDERER_H
 #define RENDERER_H
