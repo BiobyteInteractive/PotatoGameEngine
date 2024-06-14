@@ -1,5 +1,4 @@
-#include "GLFW/glfw3.h"
-#include "Renderer/Renderer.h"
+#include "Renderer/RendererAPI.h"
 #include <Core/Application.h>
 
 int main() {
@@ -7,15 +6,15 @@ int main() {
     const int screenHeight = 450;
 
     Application* app = new Application(screenWidth, screenHeight, "Sandbox");
-    GLFWwindow* window = app->GetWindow();
-    Renderer* renderer = app->m_Renderer;
+    RendererAPI* renderer = app->m_Renderer;
+
+    renderer->SetContext(app->m_Window);
 
     while(!app->WindowShouldClose()) {
-        renderer->BeginDrawing(window);
 
         renderer->ClearBackground(255, 0, 255, 255);
 
-        renderer->EndDrawing(window);
+        renderer->EndDrawing();
     }
 
     return 0;

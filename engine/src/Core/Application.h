@@ -4,7 +4,7 @@
 
 #define DllExport __declspec( dllexport )
 
-#include "../Renderer/Renderer.h"
+#include "../Renderer/RendererAPI.h"
 
 #include <GLFW/glfw3.h>
 
@@ -21,8 +21,9 @@ class DllExport Application {
         bool WindowShouldClose();
         void CloseApplication();
 
-        Renderer*   m_Renderer;
-    private:
+    public:
+        RendererAPI* m_Renderer;
+        Window*      m_Window;
 };
 
 #endif

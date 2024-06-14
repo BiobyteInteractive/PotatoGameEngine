@@ -1,7 +1,7 @@
-#include <Assets/AssetDatabase.h>
+#include "Assets/AssetDatabase.h"
 #include <Core/Application.h>
 #include <Debug/Logger.h>
-#include <Renderer/Renderer.h>
+#include <Renderer/RendererAPI.h>
 
 #include <GLFW/glfw3.h>
 #include <filesystem>
@@ -43,11 +43,14 @@ int main() {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    Renderer* renderer = app->m_Renderer;
+    RendererAPI* renderer = app->m_Renderer;
+
+    renderer->SetContext(app->m_Window);
 
     bool show_demo_window = true;
     while(!app->WindowShouldClose()) {
-        renderer->BeginDrawing(window);
+
+
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
@@ -78,7 +81,7 @@ int main() {
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        renderer->EndDrawing(window);
+        renderer->EndDrawing();
     }
 
     delete asset_db;

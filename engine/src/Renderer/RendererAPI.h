@@ -22,9 +22,11 @@ class DllExport RendererAPI {
         ~RendererAPI() = default;
 
         void ClearBackground(int r, int g, int b, int a);
-        void EndDrawing(GLFWwindow* window);
-    public:
-        GLFWwindow* m_Window;
+        void EndDrawing();
+
+        void SetContext(Window* window);
+    private:
+        Window* m_Window;
     
     private:
         static API s_API;

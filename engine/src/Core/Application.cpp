@@ -6,10 +6,12 @@
 #include <string>
 
 #include "Application.h"
-#include "../Renderer/Renderer.h"
+#include "../Renderer/RendererAPI.h"
+#include "Window.h"
 
 Application::Application(int screenWidth, int screenHeight, std::string windowTitle) {
-    this->m_Renderer = new Renderer(screenWidth, screenHeight, windowTitle);
+    this->m_Renderer = new RendererAPI();
+    this->m_Window = new Window(screenWidth, screenHeight, windowTitle);
 }
 
 Application::~Application() {
@@ -17,7 +19,7 @@ Application::~Application() {
 }
 
 GLFWwindow* Application::GetWindow() {
-    return this->m_Renderer->m_Window;
+    return this->m_Window->GetWindowHandle();
 }
 
 void Application::Update(std::function<void()> update) {
@@ -27,9 +29,9 @@ void Application::Update(std::function<void()> update) {
 }
 
 bool Application::WindowShouldClose() {
-    return glfwWindowShouldClose(this->m_Renderer->m_Window);
+    return glfwWindowShouldClose(this->m_Window->GetWindowHandle());
 }
 
 void Application::CloseApplication() {
-    glfwSetWindowShouldClose(this->m_Renderer->m_Window, 1);
+    glfwSetWindowShouldClose(this->m_Window->GetWindowHandle(), 1);
 }
