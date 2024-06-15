@@ -17,7 +17,7 @@
 #endif
 
 int main() {
-    Theme* theme = new Theme("steam.toml");
+    Theme* theme = new Theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\themes\\steam.toml");
 
     #ifdef _WIN32
         SetDllDirectory(std::filesystem::current_path().string().c_str());
