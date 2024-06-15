@@ -1,4 +1,6 @@
 #include "Assets/AssetDatabase.h"
+#include "ImGui/Theme.h"
+
 #include <Core/Application.h>
 #include <Debug/Logger.h>
 #include <Renderer/RendererAPI.h>
@@ -15,6 +17,8 @@
 #endif
 
 int main() {
+    Theme* theme = new Theme("steam.toml");
+
     #ifdef _WIN32
         SetDllDirectory(std::filesystem::current_path().string().c_str());
         std::filesystem::current_path("C:\\Users\\Pedro Bentes\\Desktop\\GameEngineProject");
@@ -23,7 +27,7 @@ int main() {
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    Application* app = new Application(screenWidth, screenHeight, (char*)"Potato Game Engine Editor");
+    Application* app = new Application(screenWidth, screenHeight, (char*)"Paragon Game Engine");
     GLFWwindow* window = app->GetWindow();
 
     AssetDatabase* asset_db = new AssetDatabase((std::filesystem::current_path() / "assets").string());
@@ -39,6 +43,9 @@ int main() {
     // Todo: io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     ImGui::StyleColorsDark();
+
+    
+    theme->SetTheme();
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
