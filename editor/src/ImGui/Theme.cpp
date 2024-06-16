@@ -232,6 +232,8 @@ void Theme::SetTheme() {
 	style.Colors[ImGuiCol_NavWindowingHighlight] = this->m_NavWindowingHighlight ;
 	style.Colors[ImGuiCol_NavWindowingDimBg]     = this->m_NavWindowingDimBg;
 	style.Colors[ImGuiCol_ModalWindowDimBg]      = this->m_ModalWindowDimBg;
+    style.Colors[ImGuiCol_DockingPreview]        = this->m_TabActive;
+    style.Colors[ImGuiCol_DockingEmptyBg]        = this->m_WindowBg;
 }
 
 void Theme::SaveTheme() {
