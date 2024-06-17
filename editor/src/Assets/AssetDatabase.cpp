@@ -46,6 +46,7 @@ AssetDatabase::AssetDatabase(std::string directory) {
           "DIRECTORY TEXT                NOT NULL," \
           "EXTENSION TEXT                NOT NULL," \
           "DELETED   BOOL                NOT NULL DEFAULT FALSE," \
+          "SCANNED   BOOL                NOT NULL DEFAULT TRUE," \
           "UNIQUE(PATH, DIRECTORY)" \
           ");";
 
@@ -63,6 +64,8 @@ AssetDatabase::AssetDatabase(std::string directory) {
     this->m_WatchId = this->m_FileWatcher->addWatch(directory, this, true);
 
     this->m_FileWatcher->watch();
+
+    this ->ScanFolder(directory);
 }
 
 AssetDatabase::~AssetDatabase() {
@@ -98,7 +101,7 @@ void AssetDatabase::InsertAsset(std::string directory, std::string filename) {
     // Use parameter placeholders ('?') to prevent SQL injection
     const char* sql = "INSERT INTO assets (PATH, DIRECTORY, EXTENSION, DELETED) "
                       "VALUES (?, ?, ?, 0) "
-                      "ON CONFLICT(PATH, DIRECTORY) DO UPDATE SET DELETED = FALSE;";
+                      "ON CONFLICT(PATH, DIRECTORY) DO UPDATE SET DELETED = FALSE, SCANNED = TRUE;";
 
     // Prepare the SQL statement
     sqlite3_stmt* stmt;
@@ -237,6 +240,63 @@ void AssetDatabase::handleFileAction(efsw::WatchID watchid, const std::string& d
     }
 }
 
-void AssetDatabase::ScanFolder() {
+void AssetDatabase::ScanFolder(std::string folderPath) {
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(folderPath)) {
+        if (std::filesystem::is_directory(entry.path().string())) {
+            continue;
+        }
 
+        if (std::filesystem::is_regular_file(entry)) {
+            std::cout << entry.path() << std::endl;
+            std::string dir = entry.path().parent_path().string();
+            std::string filename = entry.path().filename().string();
+            this->InsertAsset(dir, filename);
+        }
+    }
+
+    // Delete the files not scanned
+    int rc;
+
+    const char* sql = "UPDATE assets SET DELETED = TRUE WHERE SCANNED = FALSE;";
+
+    sqlite3_stmt* stmt;
+    rc = sqlite3_prepare_v2(m_AssetDb, sql, -1, &stmt, NULL);
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
+        abort();
+    }
+
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
+        sqlite3_finalize(stmt);
+        abort();
+    } 
+
+    sqlite3_finalize(stmt);
+
+    // Set scanned to false on all files
+    this->ResetScans();
+}
+
+void AssetDatabase::ResetScans() {
+    int rc;
+
+    const char* sql = "UPDATE assets SET SCANNED = FALSE WHERE SCANNED = TRUE;";
+
+    sqlite3_stmt* stmt;
+    rc = sqlite3_prepare_v2(m_AssetDb, sql, -1, &stmt, NULL);
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
+        abort();
+    }
+
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        std::cerr << "SQL error: " << sqlite3_errmsg(m_AssetDb) << std::endl;
+        sqlite3_finalize(stmt);
+        abort();
+    } 
+
+    sqlite3_finalize(stmt);
 }

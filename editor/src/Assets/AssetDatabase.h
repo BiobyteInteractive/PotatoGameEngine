@@ -25,8 +25,9 @@ class DllExport AssetDatabase : public efsw::FileWatchListener {
         void InsertAsset(std::string directory, std::string filename);
         void UpdateAsset(std::string directory, std::string filename, std::string old_filename);
         void DeleteAsset(std::string directory, std::string filename);
+        void ResetScans();
         void Cleanup();
-        void ScanFolder();
+        void ScanFolder(std::string folderPath);
         
     private:
         sqlite3* m_AssetDb;
