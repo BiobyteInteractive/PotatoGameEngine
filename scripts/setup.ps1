@@ -5,7 +5,7 @@ $Env:VCPKG_DEFAULT_TRIPLET = "x64-windows";
 
 # Scripting
 .\vendor\vcpkg\vcpkg.exe install toml11;
-.\vendor\vcpkg\vcpkg.exe install lua;
+.\vendor\vcpkg\vcpkg.exe install wren;
 
 # Networking
 .\vendor\vcpkg\vcpkg.exe install entt;

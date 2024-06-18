@@ -30,6 +30,7 @@ target_include_directories( ${ProjectName}
 )
 
 target_link_libraries(${ProjectName} 
+    PUBLIC wren
     PUBLIC glad
     PUBLIC glfw3dll
     PUBLIC sqlite3
