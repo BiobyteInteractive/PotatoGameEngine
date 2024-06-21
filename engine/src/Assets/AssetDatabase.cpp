@@ -247,7 +247,6 @@ void AssetDatabase::ScanFolder(std::string folderPath) {
         }
 
         if (std::filesystem::is_regular_file(entry)) {
-            std::cout << entry.path() << std::endl;
             std::string dir = entry.path().parent_path().string();
             std::string filename = entry.path().filename().string();
             this->InsertAsset(dir, filename);
