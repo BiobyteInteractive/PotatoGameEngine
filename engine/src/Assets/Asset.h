@@ -19,11 +19,11 @@ class DllExport Asset {
     private:
         void ImportAsset();
     public:
-        size_t m_Id;
-        std::string m_Path;
-        std::string m_Directory;
-        std::string m_Extension;
-        bool m_Deleted;
+         size_t m_Id;
+         std::string m_Path;
+         std::string m_Directory;
+         std::string m_Extension;
+         bool m_Deleted;
 
         std::shared_ptr<std::vector<unsigned char>> m_Blob;
 };
