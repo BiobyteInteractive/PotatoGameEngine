@@ -3,6 +3,7 @@
 
 #include <filesystem>
 #include <iostream>
+#include <string>
 
 #include "AssetDatabase.h"
 
@@ -32,6 +33,8 @@ AssetDatabase::AssetDatabase(std::string directory) {
     char* zErrMsg = 0;
     int rc;
     const char* sql;
+
+    this->m_WatchedDirectory = directory;
 
     rc = sqlite3_open("asset.db", &m_AssetDb);
 
@@ -71,6 +74,10 @@ AssetDatabase::AssetDatabase(std::string directory) {
 AssetDatabase::~AssetDatabase() {
     this->m_FileWatcher->removeWatch(this->m_WatchId);
     this->Cleanup();    
+}
+
+std::string AssetDatabase::GetWatchedDirectory() {
+    return this->m_WatchedDirectory;
 }
 
 void AssetDatabase::Cleanup() { 

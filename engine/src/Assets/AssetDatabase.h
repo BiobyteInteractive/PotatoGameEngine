@@ -20,6 +20,7 @@ class DllExport AssetDatabase : public efsw::FileWatchListener {
         void handleFileAction(efsw::WatchID watchid, const std::string& dir, const std::string& filename, efsw::Action action, std::string oldFilename) override;
 
         std::shared_ptr<std::vector<Asset>> GetAssets(std::string query);
+        std::string GetWatchedDirectory();
 
     private:
         void InsertAsset(std::string directory, std::string filename);
@@ -30,6 +31,7 @@ class DllExport AssetDatabase : public efsw::FileWatchListener {
         void ScanFolder(std::string folderPath);
         
     private:
+        std::string m_WatchedDirectory;
         sqlite3* m_AssetDb;
         efsw::FileWatcher* m_FileWatcher;
         efsw::WatchID m_WatchId;
