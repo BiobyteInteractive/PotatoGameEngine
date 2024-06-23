@@ -1,4 +1,6 @@
 #pragma once
+#include <cstddef>
+#include <unordered_map>
 #ifndef ASSET_DATABASE_H
 #define ASSET_DATABASE_H
 
@@ -29,11 +31,13 @@ class DllExport AssetDatabase : public efsw::FileWatchListener {
         void ResetScans();
         void Cleanup();
         void ScanFolder(std::string folderPath);
+        void SelectAssets(std::string query);
         
     private:
         std::string m_WatchedDirectory;
         sqlite3* m_AssetDb;
         efsw::FileWatcher* m_FileWatcher;
         efsw::WatchID m_WatchId;
+        std::unordered_map<size_t, std::shared_ptr<Asset>> m_AssetCache;
 };
 #endif
