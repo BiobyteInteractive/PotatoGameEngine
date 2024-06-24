@@ -1,35 +1,34 @@
 #include "efsw/efsw.hpp"
 #include <sqlite3.h>
 
+#include <cstdarg>
+#include <cstddef>
+#include <cstring>
 #include <filesystem>
 #include <iostream>
+#include <memory>
 #include <string>
+#include <unordered_map>
+#include <vector>
 
+#include "Asset.h"
 #include "AssetDatabase.h"
 
 std::string normalizePath(const std::string& pathString) {
     std::filesystem::path pathObj(pathString);
-    // Convert to the preferred format for the current platform
     pathObj.make_preferred();
-    // Normalize the path by removing redundant elements like ".." or "."
     pathObj = pathObj.lexically_normal();
-    // Remove trailing slash if it exists
     if (!pathObj.empty() && pathObj.string().back() == std::filesystem::path::preferred_separator) {
         return pathObj.string().substr(0, pathObj.string().size() - 1);
     }
     return pathObj.string();
 }
 
-static int callback(void *NotUsed, int argc, char **argv, char **azColName){
-    for(int i = 0; i<argc; i++){
-        std::cout << azColName[i] << " = " << (argv[i] ? argv[i] : "NULL") << std::endl;
-    }
-    std::cout << std::endl;
+int callback(void* NotUsed, int argc, char** argv, char** azColName){
     return 0;
 }
 
 AssetDatabase::AssetDatabase(std::string directory) {
-    // Initialize SQLite3 database
     char* zErrMsg = 0;
     int rc;
     const char* sql;
@@ -74,6 +73,59 @@ AssetDatabase::AssetDatabase(std::string directory) {
 AssetDatabase::~AssetDatabase() {
     this->m_FileWatcher->removeWatch(this->m_WatchId);
     this->Cleanup();    
+}
+
+std::vector<size_t> AssetDatabase::SelectAssets(std::string query, size_t argc, ...) {
+    va_list ap;
+    va_start(ap, argc);
+
+    sqlite3_stmt* stmt;
+    sqlite3_prepare_v2(this->m_AssetDb, query.c_str(), -1, &stmt, nullptr);
+
+    for(size_t i = 0; i < argc; ++i) {
+        sqlite3_bind_text(stmt, 1, va_arg(ap, char*), -1, SQLITE_STATIC);
+    }
+
+    std::vector<size_t> idVector;
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int id = sqlite3_column_int(stmt, 0);
+        idVector.push_back((size_t)id);
+
+        if (this->m_AssetCache.find(id) == this->m_AssetCache.end())
+            continue;
+        
+        std::string path((char*)sqlite3_column_text(stmt, 1));
+        std::string directory((char*)sqlite3_column_text(stmt, 3));
+        std::string extension((char*)sqlite3_column_text(stmt, 2));
+
+        Asset asset(
+            (size_t)id,
+            path,
+            directory,
+            extension,
+            (bool)sqlite3_column_int(stmt, 4)
+        );
+
+        std::shared_ptr<Asset> asset_ptr(&asset);
+        this->m_AssetCache.insert_or_assign((size_t)id, asset_ptr);
+    }
+
+    sqlite3_finalize(stmt);
+    return idVector;
+}
+
+std::shared_ptr<Asset> AssetDatabase::GetAssetsByID(size_t id) {
+    std::unordered_map<size_t, std::shared_ptr<Asset>>::const_iterator asset = this->m_AssetCache.find(id);
+        if (asset != this->m_AssetCache.end())
+        return asset->second;
+
+    this->SelectAssets("SELECT * FROM assets WHERE ID = ?", 1, std::to_string(id).c_str());
+
+    asset = this->m_AssetCache.find(id);
+    if (asset != this->m_AssetCache.end())
+        return asset->second;
+
+    return NULL;
 }
 
 std::string AssetDatabase::GetWatchedDirectory() {

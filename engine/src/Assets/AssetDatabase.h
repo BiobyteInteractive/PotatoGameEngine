@@ -1,6 +1,5 @@
 #pragma once
-#include <cstddef>
-#include <unordered_map>
+#include <vector>
 #ifndef ASSET_DATABASE_H
 #define ASSET_DATABASE_H
 
@@ -9,8 +8,10 @@
 #include <efsw/efsw.hpp>
 #include <sqlite3.h>
 
+#include <cstddef>
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include "Asset.h"
 
@@ -20,18 +21,21 @@ class DllExport AssetDatabase : public efsw::FileWatchListener {
         ~AssetDatabase();
 
         void handleFileAction(efsw::WatchID watchid, const std::string& dir, const std::string& filename, efsw::Action action, std::string oldFilename) override;
-
-        std::shared_ptr<std::vector<Asset>> GetAssets(std::string query);
+        
+        std::vector<size_t> SelectAssets(std::string query, size_t argc, ...);
+        std::shared_ptr<Asset> GetAssetsByID(size_t id);
         std::string GetWatchedDirectory();
+        
 
     private:
+        friend int callback(void* NotUsed, int argc, char** argv, char** azColName);
         void InsertAsset(std::string directory, std::string filename);
         void UpdateAsset(std::string directory, std::string filename, std::string old_filename);
         void DeleteAsset(std::string directory, std::string filename);
         void ResetScans();
         void Cleanup();
         void ScanFolder(std::string folderPath);
-        void SelectAssets(std::string query);
+        
         
     private:
         std::string m_WatchedDirectory;
