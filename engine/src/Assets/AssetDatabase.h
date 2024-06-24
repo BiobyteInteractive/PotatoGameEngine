@@ -23,7 +23,7 @@ class DllExport AssetDatabase : public efsw::FileWatchListener {
         void handleFileAction(efsw::WatchID watchid, const std::string& dir, const std::string& filename, efsw::Action action, std::string oldFilename) override;
         
         std::vector<size_t> SelectAssets(std::string query, size_t argc, ...);
-        std::shared_ptr<Asset> GetAssetsByID(size_t id);
+        std::shared_ptr<Asset> GetAssetByID(size_t id);
         std::string GetWatchedDirectory();
         
 

@@ -114,7 +114,7 @@ std::vector<size_t> AssetDatabase::SelectAssets(std::string query, size_t argc, 
     return idVector;
 }
 
-std::shared_ptr<Asset> AssetDatabase::GetAssetsByID(size_t id) {
+std::shared_ptr<Asset> AssetDatabase::GetAssetByID(size_t id) {
     std::unordered_map<size_t, std::shared_ptr<Asset>>::const_iterator asset = this->m_AssetCache.find(id);
         if (asset != this->m_AssetCache.end())
         return asset->second;
