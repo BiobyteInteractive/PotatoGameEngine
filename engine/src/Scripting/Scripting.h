@@ -10,12 +10,19 @@
 
 class DllExport Scripting {
     public:
-        Scripting();
-        ~Scripting();
+        static Scripting& GetInstance() {
+            static Scripting instance;
+            return instance;
+        }
+
+        Scripting(const Scripting&) = delete;
+        Scripting& operator=(const Scripting&) = delete;
 
         WrenInterpretResult Interpret(std::string package, std::string script);
         void RegisterClass();
     private:
+        Scripting();
+        ~Scripting();
         friend void errorFn(WrenVM* vm, WrenErrorType errorType, const char* module, const int line, const char* msg);
     private:
         WrenConfiguration config;
