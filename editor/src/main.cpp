@@ -1,20 +1,46 @@
 #include "ImGui/Theme.h"
 
+#include <Assets/Asset.h>
 #include <Assets/AssetDatabase.h>
 #include <Core/Application.h>
 #include <Debug/Logger.h>
 #include <Renderer/RendererAPI.h>
+#include <Scripting/Scripting.h>
 
 #include <GLFW/glfw3.h>
+#include <cstddef>
 #include <filesystem>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
 
 #ifdef _WIN32
     #include <Windows.h>
     #include <winbase.h>
 #endif
+
+std::string convertToString(const std::shared_ptr<std::vector<std::byte>>& byteVectorPtr) {
+    if (!byteVectorPtr) {
+        throw std::invalid_argument("Null pointer passed to convertToString");
+    }
+
+    const auto& byteVector = *byteVectorPtr; // Dereference shared_ptr to get the vector
+    std::string result;
+
+    // Reserve space in the string to avoid multiple reallocations
+    result.reserve(byteVector.size());
+
+    // Convert each std::byte to char and append to the string
+    for (std::byte b : byteVector) {
+        result += static_cast<char>(b);
+    }
+
+    return result;
+}
 
 int main() {
     Theme* theme = new Theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\themes\\steam.toml");
@@ -31,8 +57,19 @@ int main() {
     GLFWwindow* window = app->GetWindow();
 
     AssetDatabase* asset_db = new AssetDatabase((std::filesystem::current_path() / "assets").string());
+    
+    std::vector<size_t> scriptIDs = asset_db->SelectAssets("SELECT * FROM assets WHERE EXTENSION like '.wren'", 0);
+    for(const size_t& id : scriptIDs) {
+        std::shared_ptr<Asset> asset = asset_db->GetAssetByID(id);
+        asset->LoadAsset();
 
-    //InitAssetManager();
+        std::cout << asset->m_Path << std::endl;
+
+        std::shared_ptr<std::vector<std::byte>> blob = asset->m_Blob;
+        std::string source = convertToString(blob);
+        asset->UnloadAsset();
+        Scripting::GetInstance().Interpret("main", source);
+    } 
 
     const char* glsl_version = "#version 330";
     IMGUI_CHECKVERSION();
