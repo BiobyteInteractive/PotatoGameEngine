@@ -3,6 +3,8 @@
 
 #include <wren.hpp>
 
+#include <iostream>
+
 void errorFn(WrenVM* vm, WrenErrorType errorType, const char* module, const int line, const char* msg) {
     switch (errorType)
     {
@@ -21,10 +23,16 @@ void errorFn(WrenVM* vm, WrenErrorType errorType, const char* module, const int 
     }
 }
 
+static void writeFn(WrenVM* vm, const char* text)
+{
+    std::cout << text;
+}
+
 Scripting::Scripting() {
     wrenInitConfiguration(&this->config);
 
     this->config.errorFn = &errorFn;
+    this->config.writeFn = &writeFn;
 
     this->vm = wrenNewVM(&this->config);
 }
