@@ -91,39 +91,40 @@ std::vector<size_t> AssetDatabase::SelectAssets(std::string query, size_t argc, 
         int id = sqlite3_column_int(stmt, 0);
         idVector.push_back((size_t)id);
 
-        if (this->m_AssetCache.find(id) == this->m_AssetCache.end())
+        if (this->m_AssetCache.find(id) != this->m_AssetCache.end())
             continue;
         
         std::string path((char*)sqlite3_column_text(stmt, 1));
-        std::string directory((char*)sqlite3_column_text(stmt, 3));
-        std::string extension((char*)sqlite3_column_text(stmt, 2));
+        std::string directory((char*)sqlite3_column_text(stmt, 2));
+        std::string extension((char*)sqlite3_column_text(stmt, 3));
 
-        Asset asset(
-            (size_t)id,
-            path,
+        std::shared_ptr<Asset> asset = std::make_shared<Asset>(
+            static_cast<size_t>(id),
+            (std::filesystem::path(this->m_WatchedDirectory) / path).string(),
             directory,
             extension,
-            (bool)sqlite3_column_int(stmt, 4)
+            static_cast<bool>(sqlite3_column_int(stmt, 4))
         );
 
-        std::shared_ptr<Asset> asset_ptr(&asset);
-        this->m_AssetCache.insert_or_assign((size_t)id, asset_ptr);
+        this->m_AssetCache[static_cast<size_t>(id)] = asset;
     }
 
     sqlite3_finalize(stmt);
+    va_end(ap);
     return idVector;
 }
 
 std::shared_ptr<Asset> AssetDatabase::GetAssetByID(size_t id) {
     std::unordered_map<size_t, std::shared_ptr<Asset>>::const_iterator asset = this->m_AssetCache.find(id);
-        if (asset != this->m_AssetCache.end())
-        return asset->second;
+    std::shared_ptr<Asset> ret = this->m_AssetCache[id];
+    if (asset != this->m_AssetCache.end())
+        return ret;
 
     this->SelectAssets("SELECT * FROM assets WHERE ID = ?", 1, std::to_string(id).c_str());
 
     asset = this->m_AssetCache.find(id);
     if (asset != this->m_AssetCache.end())
-        return asset->second;
+        return this->m_AssetCache[id];
 
     return NULL;
 }

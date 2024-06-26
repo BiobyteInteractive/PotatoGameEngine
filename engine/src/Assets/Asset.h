@@ -18,12 +18,12 @@ class DllExport Asset {
         void UnloadAsset();
     private:
         size_t m_Id;
-        std::string m_Path;
         std::string m_Directory;
         std::string m_Extension;
         bool m_Deleted;
     public:
         std::shared_ptr<std::vector<std::byte>> m_Blob;
+        std::string m_Path;
 };
 
 #endif
