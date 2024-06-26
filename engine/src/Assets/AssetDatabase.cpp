@@ -98,9 +98,11 @@ std::vector<size_t> AssetDatabase::SelectAssets(std::string query, size_t argc, 
         std::string directory((char*)sqlite3_column_text(stmt, 2));
         std::string extension((char*)sqlite3_column_text(stmt, 3));
 
+        std::string fullPath = (std::filesystem::path(this->m_WatchedDirectory) / (strcmp(directory.c_str(), ".") == 0 ? "" : directory ) / path).string();
+
         std::shared_ptr<Asset> asset = std::make_shared<Asset>(
             static_cast<size_t>(id),
-            (std::filesystem::path(this->m_WatchedDirectory) / path).string(),
+            fullPath,
             directory,
             extension,
             static_cast<bool>(sqlite3_column_int(stmt, 4))
@@ -336,6 +338,7 @@ void AssetDatabase::ScanFolder(std::string folderPath) {
 
     // Set scanned to false on all files
     this->ResetScans();
+    this->Cleanup();
 }
 
 void AssetDatabase::ResetScans() {
