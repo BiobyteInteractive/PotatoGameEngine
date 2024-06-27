@@ -1,9 +1,9 @@
 #include "Scripting.h"
-#include <string>
 
 #include <wren.hpp>
 
 #include <iostream>
+#include <string>
 
 void errorFn(WrenVM* vm, WrenErrorType errorType, const char* module, const int line, const char* msg) {
     switch (errorType)
@@ -23,9 +23,23 @@ void errorFn(WrenVM* vm, WrenErrorType errorType, const char* module, const int 
     }
 }
 
-static void writeFn(WrenVM* vm, const char* text)
+void writeFn(WrenVM* vm, const char* text)
 {
     std::cout << text;
+}
+
+WrenForeignClassMethods bindForeignClass(WrenVM* vm, const char* module, const char* className, const char* superClassName) {
+    WrenForeignClassMethods methods;
+
+    std::cout << "Module: " << module << std::endl;
+    std::cout << "Class: " << className << std::endl;
+    std::cout << "Super Class: " << superClassName << std::endl;
+
+    // Unknown class.
+    methods.allocate = NULL;
+    methods.finalize = NULL;
+
+    return methods;
 }
 
 Scripting::Scripting() {
@@ -33,6 +47,7 @@ Scripting::Scripting() {
 
     this->config.errorFn = &errorFn;
     this->config.writeFn = &writeFn;
+    this->config.bindForeignClassFn = bindForeignClass;
 
     this->vm = wrenNewVM(&this->config);
 }
