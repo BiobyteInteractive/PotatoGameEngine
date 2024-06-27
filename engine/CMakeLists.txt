@@ -15,6 +15,7 @@ endif()
 
 link_directories(
     ${VCPKG_INSTALL_DIR}/lib
+    ${CMAKE_SOURCE_DIR}/vendor/lib
 )
 
 file(GLOB_RECURSE ENGINE_SRC
@@ -27,6 +28,7 @@ add_library(${ProjectName} SHARED ${ENGINE_SRC})
 target_include_directories( ${ProjectName}
     PUBLIC ${VCPKG_INSTALL_DIR}/include
     PUBLIC ${efsw_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/vendor/include
 )
 
 target_link_libraries(${ProjectName} 

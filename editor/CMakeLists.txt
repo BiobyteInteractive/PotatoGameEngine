@@ -15,6 +15,7 @@ endif()
 
 link_directories(
     ${VCPKG_INSTALL_DIR}/lib
+    ${CMAKE_SOURCE_DIR}/vendor/lib
     ${CMAKE_SOURCE_DIR}/build/editor
 )
 
@@ -29,6 +30,7 @@ target_include_directories( ${ProjectName}
     PUBLIC ${VCPKG_INSTALL_DIR}/include
     PUBLIC ${CMAKE_SOURCE_DIR}/engine/src
     PUBLIC ${efsw_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/vendor/include
 )
 
 target_link_libraries(${ProjectName}
