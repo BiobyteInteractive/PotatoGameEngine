@@ -1,8 +1,10 @@
 #include "Logger.h"
 
 #include <chrono>
+#include <format>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 #include <string>
 
 Logger::Logger() {
@@ -32,5 +34,7 @@ void Logger::Log(const std::string message, const std::string mode) {
     localtime_s(&now_tm, &now_time_t);
 
     this->m_OutputStream << "[" << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S") << "] [" << mode << "] " << message << std::endl;
+    std::cout            << "[" << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S") << "] [" << mode << "] " << message << std::endl;
     this->m_OutputStream.flush(); 
+
 }
