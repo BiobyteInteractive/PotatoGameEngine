@@ -6,7 +6,6 @@ export VCPKG_DEFAULT_TRIPLET="x64-linux"
 
 # Scripting
 ./vendor/vcpkg/vcpkg install toml11
-./vendor/vcpkg/vcpkg install wren
 
 # Networking
 ./vendor/vcpkg/vcpkg install enet
