@@ -1,6 +1,4 @@
 #pragma once
-#ifndef LOGGER_H
-#define LOGGER_H
 
 #define DllExport __declspec( dllexport )
 
@@ -28,5 +26,3 @@ class DllExport Logger {
     public:
         std::ofstream m_OutputStream;
 };
-
-#endif

@@ -3,8 +3,6 @@
 */
 
 #pragma once
-#ifndef RENDERER_H
-#define RENDERER_H
 
 #define DllExport __declspec( dllexport )
 
@@ -31,5 +29,3 @@ class DllExport RendererAPI {
     private:
         static API s_API;
 };
-
-#endif

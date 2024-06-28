@@ -1,7 +1,4 @@
 #pragma once
-#include <vector>
-#ifndef ASSET_DATABASE_H
-#define ASSET_DATABASE_H
 
 #define DllExport __declspec( dllexport )
 
@@ -12,6 +9,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "Asset.h"
 
@@ -44,4 +42,3 @@ class DllExport AssetDatabase : public efsw::FileWatchListener {
         efsw::WatchID m_WatchId;
         std::unordered_map<size_t, std::shared_ptr<Asset>> m_AssetCache;
 };
-#endif

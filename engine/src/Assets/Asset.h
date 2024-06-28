@@ -1,6 +1,4 @@
 #pragma once
-#ifndef ASSET_H
-#define ASSET_H
 
 #define DllExport __declspec( dllexport )
 
@@ -25,5 +23,3 @@ class DllExport Asset {
         std::shared_ptr<std::vector<std::byte>> m_Blob;
         std::string m_Path;
 };
-
-#endif

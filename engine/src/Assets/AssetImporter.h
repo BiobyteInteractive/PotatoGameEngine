@@ -1,6 +1,4 @@
 #pragma once
-#ifndef ASSET_IMPORTER_H
-#define ASSET_IMPORTER_H
 
 #define DllExport __declspec( dllexport )
 
@@ -14,5 +12,3 @@ class DllExport AssetImporter {
         ~AssetImporter() = default;
         virtual std::shared_ptr<std::vector<unsigned char>> ImportAsset(std::filesystem::path assetPath) = 0;
 };
-
-#endif

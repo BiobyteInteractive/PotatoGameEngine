@@ -1,6 +1,4 @@
 #pragma once
-#ifndef THEME_H
-#define THEME_H
 
 #include <string>
 
@@ -103,5 +101,3 @@ class Theme {
         ImVec4 m_NavWindowingDimBg;
         ImVec4 m_ModalWindowDimBg;
 };
-
-#endif

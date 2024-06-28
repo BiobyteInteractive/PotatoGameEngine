@@ -1,6 +1,4 @@
 #pragma once
-#ifndef INSTRUMENTOR_H
-#define INSTRUMENTOR_H
 
 #define DllExport __declspec( dllexport )
 
@@ -57,5 +55,3 @@ private:
     std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
     bool m_Stopped;
 };
-
-#endif

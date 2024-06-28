@@ -1,6 +1,4 @@
 #pragma once
-#ifndef ENGINE_APPLICATION_H
-#define ENGINE_APPLICATION_H
 
 #define DllExport __declspec( dllexport )
 
@@ -25,5 +23,3 @@ class DllExport Application {
         RendererAPI* m_Renderer;
         Window*      m_Window;
 };
-
-#endif

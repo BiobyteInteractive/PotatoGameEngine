@@ -1,6 +1,4 @@
 #pragma once
-#ifndef WINDOW_H
-#define WINDOW_H
 
 #define DllExport __declspec( dllexport )
 
@@ -16,5 +14,3 @@ class DllExport Window {
     private:
         GLFWwindow* m_Window;
 };
-
-#endif

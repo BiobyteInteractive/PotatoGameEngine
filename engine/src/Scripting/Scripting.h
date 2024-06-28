@@ -1,6 +1,4 @@
 #pragma once
-#ifndef SCRIPTING_H
-#define SCRIPTING_H
 
 #define DllExport __declspec( dllexport )
 
@@ -29,5 +27,3 @@ class DllExport Scripting {
         WrenConfiguration config;
         WrenVM* vm;
 };
-
-#endif
