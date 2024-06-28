@@ -1,4 +1,5 @@
 #include "ImGui/Theme.h"
+#include "Menu/Menu.h"
 
 #include <Assets/Asset.h>
 #include <Assets/AssetDatabase.h>
@@ -15,6 +16,7 @@
 #include <imgui_impl_opengl3.h>
 #include <iostream>
 #include <memory>
+#include <stdlib.h>
 #include <string>
 #include <vector>
 
@@ -42,13 +44,22 @@ std::string convertToString(const std::shared_ptr<std::vector<std::byte>>& byteV
     return result;
 }
 
-int main() {
-    Theme* theme = new Theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\themes\\steam.toml");
+void testCallback() {
+    std::cout << "Callback Called" << std::endl;
+}
 
+int main(int argc, char* argv[]) {
     #ifdef _WIN32
         SetDllDirectory(std::filesystem::current_path().string().c_str());
-        std::filesystem::current_path("C:\\Users\\Pedro Bentes\\Desktop\\GameEngineProject");
     #endif
+
+    Theme* theme = new Theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\themes\\steam.toml");
+    
+    if (argc <= 1 || !std::filesystem::is_regular_file(argv[1])) {
+        Logger::GetInstance().Error("No path to the project provided. Aborting.");
+        abort();
+    }
+    std::filesystem::current_path(std::filesystem::path(argv[1]).remove_filename().string());
 
     const int screenWidth = 800;
     const int screenHeight = 450;
@@ -77,10 +88,8 @@ int main() {
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    // Todo: io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     ImGui::StyleColorsDark();
-
     
     theme->SetTheme();
 
@@ -93,29 +102,13 @@ int main() {
 
     bool show_demo_window = true;
     while(!app->WindowShouldClose()) {
-
-
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            if (ImGui::BeginMainMenuBar()) {
-                if (ImGui::BeginMenu("File")) {
-                    if (ImGui::MenuItem("Create")) { 
-                    }
-                    if (ImGui::MenuItem("Open", "Ctrl+O")) { 
-                    }
-                    if (ImGui::MenuItem("Save", "Ctrl+S")) {
-                    }
-                    if (ImGui::MenuItem("Save as..")) { 
-                    }
-                    if (ImGui::MenuItem("Quit", "Ctrl+Q")){ 
-                        glfwSetWindowShouldClose(window, GLFW_TRUE);
-                    }
-                ImGui::EndMenu();
-                }
-                ImGui::EndMainMenuBar();
-            }
+            Menu::GetInstance().AddMenuItem("File/Quit", "Ctrl+Q", [window]() {
+                glfwSetWindowShouldClose(window, GLFW_TRUE);
+            });
 
             ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
