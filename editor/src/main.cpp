@@ -1,3 +1,4 @@
+#include "Panels/ContentBrowserPanel.h"
 #include "ImGui/Theme.h"
 #include "Menu/Menu.h"
 
@@ -100,6 +101,8 @@ int main(int argc, char* argv[]) {
 
     renderer->SetContext(app->m_Window);
 
+    ContentBrowser* contentBrowser = new ContentBrowser();
+
     bool show_demo_window = true;
     while(!app->WindowShouldClose()) {
             ImGui_ImplOpenGL3_NewFrame();
@@ -114,6 +117,8 @@ int main(int argc, char* argv[]) {
 
             renderer->ClearBackground(255, 0, 255, 255);
             ImGui::ShowDemoWindow(&show_demo_window);
+
+            contentBrowser->OnImGuiRender();
 
             ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
