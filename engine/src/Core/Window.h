@@ -6,11 +6,13 @@
 
 #include <string>
 
-class DllExport Window {
-    public:
-        Window(int screenWidth, int screenHeight, std::string windowTitle);
-        ~Window();
-        GLFWwindow* GetWindowHandle();
-    private:
-        GLFWwindow* m_Window;
-};
+namespace Engine {
+    class DllExport Window {
+        public:
+            Window(int screenWidth, int screenHeight, std::string windowTitle);
+            ~Window();
+            GLFWwindow* GetWindowHandle();
+        private:
+            GLFWwindow* m_Window;
+    };
+}

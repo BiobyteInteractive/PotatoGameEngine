@@ -1,7 +1,5 @@
 #pragma once
 
-#define DllExport __declspec( dllexport )
-
 #include "../Renderer/RendererAPI.h"
 
 #include <GLFW/glfw3.h>
@@ -9,17 +7,21 @@
 #include <functional>
 #include <string>
 
-class DllExport Application {
-    public:
-        Application(int screenWidth, int screenHeight, std::string windowTitle);
-        ~Application();
+#define DllExport __declspec( dllexport )
 
-        void  Update(std::function<void()> update);
-        GLFWwindow* GetWindow();
-        bool WindowShouldClose();
-        void CloseApplication();
+namespace Engine {
+    class DllExport Application {
+        public:
+            Application(int screenWidth, int screenHeight, std::string windowTitle);
+            ~Application();
 
-    public:
-        RendererAPI* m_Renderer;
-        Window*      m_Window;
-};
+            void  Update(std::function<void()> update);
+            GLFWwindow* GetWindow();
+            bool WindowShouldClose();
+            void CloseApplication();
+
+        public:
+            RendererAPI* m_Renderer;
+            Window*      m_Window;
+    };
+}

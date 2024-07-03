@@ -5,24 +5,26 @@
 #include <fstream>
 #include <string>
 
-class DllExport Logger {
-    public:
-        static Logger& GetInstance() {
-            static Logger instance;
-            return instance;
-        }
+namespace Engine {
+    class DllExport Logger {
+        public:
+            static Logger& GetInstance() {
+                static Logger instance;
+                return instance;
+            }
 
-        Logger(const Logger&) = delete;
-        Logger& operator=(const Logger&) = delete;
+            Logger(const Logger&) = delete;
+            Logger& operator=(const Logger&) = delete;
 
-        void Error(const std::string message);
-        void Debug(const std::string message);
-        void Info(const std::string message);
-    private:
+            void Error(const std::string message);
+            void Debug(const std::string message);
+            void Info(const std::string message);
+        private:
 
-        Logger();
-        ~Logger();
-        void Log(const std::string message, const std::string mode);
-    public:
-        std::ofstream m_OutputStream;
-};
+            Logger();
+            ~Logger();
+            void Log(const std::string message, const std::string mode);
+        public:
+            std::ofstream m_OutputStream;
+    };
+}

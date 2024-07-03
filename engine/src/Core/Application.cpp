@@ -9,29 +9,31 @@
 #include "../Renderer/RendererAPI.h"
 #include "Window.h"
 
-Application::Application(int screenWidth, int screenHeight, std::string windowTitle) {
-    this->m_Renderer = new RendererAPI();
-    this->m_Window = new Window(screenWidth, screenHeight, windowTitle);
-}
-
-Application::~Application() {
-    glfwTerminate();
-}
-
-GLFWwindow* Application::GetWindow() {
-    return this->m_Window->GetWindowHandle();
-}
-
-void Application::Update(std::function<void()> update) {
-    while(!this->WindowShouldClose()) {
-        update();
+namespace Engine {
+    Application::Application(int screenWidth, int screenHeight, std::string windowTitle) {
+        this->m_Renderer = new RendererAPI();
+        this->m_Window = new Window(screenWidth, screenHeight, windowTitle);
     }
-}
 
-bool Application::WindowShouldClose() {
-    return glfwWindowShouldClose(this->m_Window->GetWindowHandle());
-}
+    Application::~Application() {
+        glfwTerminate();
+    }
 
-void Application::CloseApplication() {
-    glfwSetWindowShouldClose(this->m_Window->GetWindowHandle(), 1);
+    GLFWwindow* Application::GetWindow() {
+        return this->m_Window->GetWindowHandle();
+    }
+
+    void Application::Update(std::function<void()> update) {
+        while(!this->WindowShouldClose()) {
+            update();
+        }
+    }
+
+    bool Application::WindowShouldClose() {
+        return glfwWindowShouldClose(this->m_Window->GetWindowHandle());
+    }
+
+    void Application::CloseApplication() {
+        glfwSetWindowShouldClose(this->m_Window->GetWindowHandle(), 1);
+    }
 }

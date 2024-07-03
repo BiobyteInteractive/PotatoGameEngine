@@ -15,43 +15,45 @@
 #define PROFILE_FUNCTION()
 #endif
 
-struct DllExport ProfileResult
-{
-    std::string Name;
-    long long Start, End;
-    uint32_t ThreadID;
-};
+namespace Engine {
+    struct DllExport ProfileResult
+    {
+        std::string Name;
+        long long Start, End;
+        uint32_t ThreadID;
+    };
 
-struct DllExport InstrumentationSession
-{
-    std::string Name;
-};
+    struct DllExport InstrumentationSession
+    {
+        std::string Name;
+    };
 
-class DllExport Instrumentor
-{
-private:
-    InstrumentationSession* m_CurrentSession;
-    std::ofstream m_OutputStream;
-    int m_ProfileCount;
-public:
-    Instrumentor();
+    class DllExport Instrumentor
+    {
+    private:
+        InstrumentationSession* m_CurrentSession;
+        std::ofstream m_OutputStream;
+        int m_ProfileCount;
+    public:
+        Instrumentor();
 
-    void BeginSession(const std::string& name, const std::string& filepath = "results.json");
-    void EndSession();
-    void WriteProfile(const ProfileResult& result);
-    void WriteHeader();
-    void WriteFooter();
-    static Instrumentor& Get();
-};
+        void BeginSession(const std::string& name, const std::string& filepath = "results.json");
+        void EndSession();
+        void WriteProfile(const ProfileResult& result);
+        void WriteHeader();
+        void WriteFooter();
+        static Instrumentor& Get();
+    };
 
-class DllExport InstrumentationTimer
-{
-public:
-    InstrumentationTimer(const char* name);
-    ~InstrumentationTimer();
-    void Stop();
-private:
-    const char* m_Name;
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
-    bool m_Stopped;
-};
+    class DllExport InstrumentationTimer
+    {
+    public:
+        InstrumentationTimer(const char* name);
+        ~InstrumentationTimer();
+        void Stop();
+    private:
+        const char* m_Name;
+        std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
+        bool m_Stopped;
+    };
+}
