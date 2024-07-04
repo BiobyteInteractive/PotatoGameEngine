@@ -37,6 +37,7 @@ target_link_libraries(${ProjectName}
     PUBLIC glfw3dll
     PUBLIC sqlite3
     PUBLIC efsw
+    PUBLIC imgui
 )
 
 if (WIN32)
