@@ -1,5 +1,6 @@
 #include "ContentBrowserPanel.h"
-#include "../Menu/Menu.h"
+
+#include <ImGui/Menu.h>
 
 #include <imgui.h>
 
@@ -10,7 +11,7 @@ ContentBrowser::~ContentBrowser() {
 }
 
 void ContentBrowser::OnImGuiRender() {
-    Menu::GetInstance().AddMenuItem("Panels/Content Browser", "", [this]() {
+    Engine::Menu::GetInstance().AddMenuItem("Panels/Content Browser", "", [this]() {
         this->ToggleWindow();
     });
 

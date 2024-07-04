@@ -1,9 +1,9 @@
 #pragma once
 
-#include "PanelInterface.h"
+#include <ImGui/PanelInterface.h>
 #include <filesystem>
 
-class ContentBrowser: PanelInterface {
+class ContentBrowser: Engine::PanelInterface {
     public:
         ContentBrowser();
         ~ContentBrowser();
