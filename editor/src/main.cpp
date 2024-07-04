@@ -1,6 +1,7 @@
+#include "ImGui/ImGui.h"
 #include "Panels/ContentBrowserPanel.h"
 #include "ImGui/Theme.h"
-#include "Menu/Menu.h"
+#include "ImGui/Menu.h"
 
 #include <Assets/Asset.h>
 #include <Assets/AssetDatabase.h>
@@ -25,6 +26,8 @@
     #include <Windows.h>
     #include <winbase.h>
 #endif
+
+using namespace Engine;
 
 std::string convertToString(const std::shared_ptr<std::vector<std::byte>>& byteVectorPtr) {
     if (!byteVectorPtr) {
@@ -54,7 +57,7 @@ int main(int argc, char* argv[]) {
         SetDllDirectory(std::filesystem::current_path().string().c_str());
     #endif
 
-    Theme* theme = new Theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\themes\\steam.toml");
+    Theme* theme = new Theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\Themes\\steam.toml");
     
     if (argc <= 1 || !std::filesystem::is_regular_file(argv[1])) {
         Logger::GetInstance().Error("No path to the project provided. Aborting.");
@@ -84,13 +87,15 @@ int main(int argc, char* argv[]) {
     } 
 
     const char* glsl_version = "#version 330";
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ::IMGUI_CHECKVERSION();
+    ::ImGui::CreateContext();
+    ImGuiIO& io = ::ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-    ImGui::StyleColorsDark();
+    ::ImGui::StyleColorsDark();
+
+    Engine::ImGui::SetImGuiContext(::ImGui::GetCurrentContext());
     
     theme->SetTheme();
 
@@ -107,21 +112,21 @@ int main(int argc, char* argv[]) {
     while(!app->WindowShouldClose()) {
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
-            ImGui::NewFrame();
+            ::ImGui::NewFrame();
 
             Menu::GetInstance().AddMenuItem("File/Quit", "Ctrl+Q", [window]() {
                 glfwSetWindowShouldClose(window, GLFW_TRUE);
             });
 
-            ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+            ::ImGui::DockSpaceOverViewport(::ImGui::GetMainViewport());
 
             renderer->ClearBackground(255, 0, 255, 255);
-            ImGui::ShowDemoWindow(&show_demo_window);
+            ::ImGui::ShowDemoWindow(&show_demo_window);
 
             contentBrowser->OnImGuiRender();
 
-            ImGui::Render();
-            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            ::ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(::ImGui::GetDrawData());
 
         renderer->EndDrawing();
     }

@@ -1,6 +1,8 @@
 #include "Renderer/RendererAPI.h"
 #include <Core/Application.h>
 
+using namespace Engine;
+
 int main() {
     const int screenWidth = 800;
     const int screenHeight = 450;
