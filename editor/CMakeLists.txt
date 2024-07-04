@@ -48,3 +48,6 @@ if (WIN32)
         configure_file(${dll} "${CMAKE_SOURCE_DIR}/build/${filename}" COPYONLY)
     endforeach()
 endif()
+
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/Assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Assets")
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/Themes" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Themes")
