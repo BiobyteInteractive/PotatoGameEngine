@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include "../Core/Window.h"
+#include "Color.h"
 #include "RendererAPI.h"
 
 namespace Engine {
@@ -10,8 +11,8 @@ namespace Engine {
         glfwPollEvents();
     }
 
-    void RendererAPI::ClearBackground(int r, int g, int b, int a) {
-        glClearColor((float)r/255, (float)g/255, (float)b/255, (float)a/255);
+    void RendererAPI::ClearBackground(Color color) {
+        glClearColor(color.r, color.g, color.b, color.a);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 

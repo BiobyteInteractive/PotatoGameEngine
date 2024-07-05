@@ -28,7 +28,7 @@ namespace Engine {
         public:
             ~RendererAPI() = default;
 
-            void ClearBackground(int r, int g, int b, int a);
+            void ClearBackground(Color color);
             void EndDrawing();
 
             void SetContext(Window* window);

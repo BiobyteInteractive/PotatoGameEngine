@@ -7,6 +7,7 @@
 #include <Assets/AssetDatabase.h>
 #include <Core/Application.h>
 #include <Debug/Logger.h>
+#include <Renderer/Color.h>
 #include <Renderer/RendererAPI.h>
 #include <Scripting/Scripting.h>
 
@@ -94,7 +95,7 @@ int main(int argc, char* argv[]) {
 
             ::ImGui::DockSpaceOverViewport(::ImGui::GetMainViewport());
 
-            renderer->ClearBackground(255, 0, 255, 255);
+            renderer->ClearBackground(Color(255, 0, 255, 255));
             ::ImGui::ShowDemoWindow(&show_demo_window);
 
             contentBrowser->OnImGuiRender();

@@ -1,6 +1,8 @@
 #include "Renderer/RendererAPI.h"
 #include <Core/Application.h>
 
+#include <Renderer/Color.h>
+
 using namespace Engine;
 
 int main() {
@@ -13,8 +15,7 @@ int main() {
     renderer->SetContext(app->m_Window);
 
     while(!app->WindowShouldClose()) {
-
-        renderer->ClearBackground(255, 0, 255, 255);
+        renderer->ClearBackground(Color(255, 235, 4, 255));
 
         renderer->EndDrawing();
     }
