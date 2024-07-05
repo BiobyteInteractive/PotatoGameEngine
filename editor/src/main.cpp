@@ -29,29 +29,6 @@
 
 using namespace Engine;
 
-std::string convertToString(const std::shared_ptr<std::vector<std::byte>>& byteVectorPtr) {
-    if (!byteVectorPtr) {
-        throw std::invalid_argument("Null pointer passed to convertToString");
-    }
-
-    const auto& byteVector = *byteVectorPtr; // Dereference shared_ptr to get the vector
-    std::string result;
-
-    // Reserve space in the string to avoid multiple reallocations
-    result.reserve(byteVector.size());
-
-    // Convert each std::byte to char and append to the string
-    for (std::byte b : byteVector) {
-        result += static_cast<char>(b);
-    }
-
-    return result;
-}
-
-void testCallback() {
-    std::cout << "Callback Called" << std::endl;
-}
-
 int main(int argc, char* argv[]) {
     #ifdef _WIN32
         SetDllDirectory(std::filesystem::current_path().string().c_str());
@@ -76,14 +53,11 @@ int main(int argc, char* argv[]) {
     std::vector<size_t> scriptIDs = asset_db->SelectAssets("SELECT * FROM assets WHERE EXTENSION like '.wren'", 0);
     for(const size_t& id : scriptIDs) {
         std::shared_ptr<Asset> asset = asset_db->GetAssetByID(id);
-        asset->LoadAsset();
-
-        std::cout << asset->m_Path << std::endl;
+        asset->LoadAssetSync();
 
         std::shared_ptr<std::vector<std::byte>> blob = asset->m_Blob;
-        std::string source = convertToString(blob);
+        Scripting::GetInstance().Interpret("main", asset->ToString());
         asset->UnloadAsset();
-        Scripting::GetInstance().Interpret("main", source);
     } 
 
     const char* glsl_version = "#version 330";

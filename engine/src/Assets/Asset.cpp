@@ -1,5 +1,7 @@
 #include "Asset.h"
 
+#include "../Debug/Logger.h"
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -17,7 +19,7 @@ namespace Engine {
         this->m_Blob = std::make_shared<std::vector<std::byte>>();
     }
 
-    void Asset::LoadAsset() {
+    void Asset::LoadAssetSync() {
         std::ifstream file(this->m_Path, std::ios::binary);
         if (!file) {
             throw std::runtime_error("Could not open file: " + this->m_Path);
@@ -47,5 +49,24 @@ namespace Engine {
 
     void Asset::UnloadAsset() {
         this->m_Blob.reset();
+    }
+
+    std::string Asset::ToString() const {
+        std::string result;
+        
+        if (!this->m_Blob) {
+            Logger::GetInstance().Info("Calling ToString on an unloaded asset");
+            return result;
+        }
+
+        // Reserve space in the string to avoid multiple reallocations
+        result.reserve(this->m_Blob->size());
+
+        // Convert each std::byte to char and append to the string
+        for (std::byte b : *this->m_Blob) {
+            result += static_cast<char>(b);
+        }
+
+        return result;
     }
 }
