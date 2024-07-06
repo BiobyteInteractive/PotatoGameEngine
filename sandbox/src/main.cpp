@@ -9,13 +9,14 @@ int main() {
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    Application* app = new Application(screenWidth, screenHeight, "Sandbox");
-    RendererAPI* renderer = app->m_Renderer;
+    Application app(screenWidth, screenHeight, "Sandbox");
+    RendererAPI* renderer = app.m_Renderer;
 
-    renderer->SetContext(app->m_Window);
+    renderer->SetContext(app.m_Window);
 
-    while(!app->WindowShouldClose()) {
+    while(!app.WindowShouldClose()) {
         renderer->ClearBackground(Color(255, 235, 4, 255));
+        //renderer->ClearBackground(Color::yellow);
 
         renderer->EndDrawing();
     }

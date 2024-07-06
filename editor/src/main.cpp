@@ -17,7 +17,6 @@
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
-#include <iostream>
 #include <memory>
 #include <stdlib.h>
 #include <string>
@@ -35,7 +34,7 @@ int main(int argc, char* argv[]) {
         SetDllDirectory(std::filesystem::current_path().string().c_str());
     #endif
 
-    Theme* theme = new Theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\Themes\\steam.toml");
+    Theme theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\Themes\\steam.toml");
     
     if (argc <= 1 || !std::filesystem::is_regular_file(argv[1])) {
         Logger::GetInstance().Error("No path to the project provided. Aborting.");
@@ -46,14 +45,14 @@ int main(int argc, char* argv[]) {
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    Application* app = new Application(screenWidth, screenHeight, (char*)"Paragon Game Engine");
-    GLFWwindow* window = app->GetWindow();
+    Application app(screenWidth, screenHeight, (char*)"Paragon Game Engine");
+    GLFWwindow* window = app.GetWindow();
 
-    AssetDatabase* asset_db = new AssetDatabase((std::filesystem::current_path() / "assets").string());
+    AssetDatabase asset_db((std::filesystem::current_path() / "assets").string());
     
-    std::vector<size_t> scriptIDs = asset_db->SelectAssets("SELECT * FROM assets WHERE EXTENSION like '.wren'", 0);
+    std::vector<size_t> scriptIDs = asset_db.SelectAssets("SELECT * FROM assets WHERE EXTENSION like '.wren'", 0);
     for(const size_t& id : scriptIDs) {
-        std::shared_ptr<Asset> asset = asset_db->GetAssetByID(id);
+        std::shared_ptr<Asset> asset = asset_db.GetAssetByID(id);
         asset->LoadAssetSync();
 
         std::shared_ptr<std::vector<std::byte>> blob = asset->m_Blob;
@@ -72,19 +71,19 @@ int main(int argc, char* argv[]) {
 
     Engine::ImGui::SetImGuiContext(::ImGui::GetCurrentContext());
     
-    theme->SetTheme();
+    theme.SetTheme();
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    RendererAPI* renderer = app->m_Renderer;
+    RendererAPI* renderer = app.m_Renderer;
 
-    renderer->SetContext(app->m_Window);
+    renderer->SetContext(app.m_Window);
 
-    ContentBrowser* contentBrowser = new ContentBrowser();
+    ContentBrowser contentBrowser = ContentBrowser();
 
     bool show_demo_window = true;
-    while(!app->WindowShouldClose()) {
+    while(!app.WindowShouldClose()) {
             ImGui_ImplOpenGL3_NewFrame();
             ImGui_ImplGlfw_NewFrame();
             ::ImGui::NewFrame();
@@ -98,7 +97,7 @@ int main(int argc, char* argv[]) {
             renderer->ClearBackground(Color(255, 0, 255, 255));
             ::ImGui::ShowDemoWindow(&show_demo_window);
 
-            contentBrowser->OnImGuiRender();
+            contentBrowser.OnImGuiRender();
 
             ::ImGui::Render();
             ImGui_ImplOpenGL3_RenderDrawData(::ImGui::GetDrawData());
@@ -106,7 +105,5 @@ int main(int argc, char* argv[]) {
         renderer->EndDrawing();
     }
 
-    delete asset_db;
-    
     return 0;
 }
