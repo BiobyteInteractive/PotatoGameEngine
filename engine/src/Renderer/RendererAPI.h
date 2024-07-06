@@ -39,6 +39,7 @@ namespace Engine {
             // 2D Rendering Calls
             void DrawPoint(Vector2 point, Color color);
             void DrawLine(Vector2 start, Vector2 end, Color color);
+            void DrawQuad();
 
             // 3D Rendering Calls
             void DrawPoint(Vector3 point, Color color);
