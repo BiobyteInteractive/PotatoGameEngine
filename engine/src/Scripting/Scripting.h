@@ -3,7 +3,7 @@
 #define DllExport __declspec( dllexport )
 
 #include <string>
-#include <wren.hpp>
+#include <finch.hpp>
 
 namespace Engine {
     class DllExport Scripting {
@@ -16,15 +16,15 @@ namespace Engine {
             Scripting(const Scripting&) = delete;
             Scripting& operator=(const Scripting&) = delete;
 
-            WrenInterpretResult Interpret(std::string package, std::string script);
+            FinchInterpretResult Interpret(std::string package, std::string script);
         private:
             Scripting();
             ~Scripting();
-            friend void errorFn(WrenVM* vm, WrenErrorType errorType, const char* module, const int line, const char* msg);
-            friend void writeFn(WrenVM* vm, const char* text);
-            friend WrenForeignClassMethods bindForeignClass(WrenVM* vm, const char* module, const char* className, const char* superClassName);
+            friend void errorFn(FinchVM* vm, FinchErrorType errorType, const char* module, const int line, const char* msg);
+            friend void writeFn(FinchVM* vm, const char* text);
+            friend FinchForeignClassMethods bindForeignClass(FinchVM* vm, const char* module, const char* className, const char* superClassName);
         private:
-            WrenConfiguration config;
-            WrenVM* vm;
+            FinchConfiguration config;
+            FinchVM* vm;
     };
 }

@@ -1,12 +1,12 @@
 #include "Scripting.h"
 
-#include <wren.hpp>
+#include <finch.hpp>
 
 #include <iostream>
 #include <string>
 
 namespace Engine {
-    void errorFn(WrenVM* vm, WrenErrorType errorType, const char* module, const int line, const char* msg) {
+    void errorFn(FinchVM* vm, FinchErrorType errorType, const char* module, const int line, const char* msg) {
         switch (errorType)
         {
             case WREN_ERROR_COMPILE:
@@ -24,13 +24,13 @@ namespace Engine {
         }
     }
 
-    void writeFn(WrenVM* vm, const char* text)
+    void writeFn(FinchVM* vm, const char* text)
     {
         std::cout << text;
     }
 
-    WrenForeignClassMethods bindForeignClass(WrenVM* vm, const char* module, const char* className, const char* superClassName) {
-        WrenForeignClassMethods methods;
+    FinchForeignClassMethods bindForeignClass(FinchVM* vm, const char* module, const char* className, const char* superClassName) {
+        FinchForeignClassMethods methods;
 
         std::cout << "Module: " << module << std::endl;
         std::cout << "Class: " << className << std::endl;
@@ -44,20 +44,20 @@ namespace Engine {
     }
 
     Scripting::Scripting() {
-        wrenInitConfiguration(&this->config);
+        finchInitConfiguration(&this->config);
 
         this->config.errorFn = &errorFn;
         this->config.writeFn = &writeFn;
         this->config.bindForeignClassFn = bindForeignClass;
 
-        this->vm = wrenNewVM(&this->config);
+        this->vm = finchNewVM(&this->config);
     }
 
     Scripting::~Scripting() {
-        wrenFreeVM(this->vm);
+        finchFreeVM(this->vm);
     }
 
-    WrenInterpretResult Scripting::Interpret(std::string package, std::string script) {
-        return wrenInterpret(this->vm, package.c_str(), script.c_str());
+    FinchInterpretResult Scripting::Interpret(std::string package, std::string script) {
+        return finchInterpret(this->vm, package.c_str(), script.c_str());
     }
 }
