@@ -11,7 +11,7 @@ export VCPKG_DEFAULT_TRIPLET="x64-linux"
 ./vendor/vcpkg/vcpkg install enet
 
 # ECS
-./vendor/vcpkg/vcpkg install entt
+./vendor/vcpkg/vcpkg install flecs
 
 # Physics
 ./vendor/vcpkg/vcpkg install joltphysics

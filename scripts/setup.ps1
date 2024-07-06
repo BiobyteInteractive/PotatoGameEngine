@@ -7,7 +7,7 @@ $Env:VCPKG_DEFAULT_TRIPLET = "x64-windows";
 .\vendor\vcpkg\vcpkg.exe install toml11;
 
 # Networking
-.\vendor\vcpkg\vcpkg.exe install entt;
+.\vendor\vcpkg\vcpkg.exe install enet;
 
 # ECS
 .\vendor\vcpkg\vcpkg.exe install flecs;
