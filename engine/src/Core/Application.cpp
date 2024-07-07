@@ -6,12 +6,12 @@
 #include <string>
 
 #include "Application.h"
-#include "../Renderer/RendererAPI.h"
+#include "../Renderer/OpenGL/OpenGL.h"
 #include "Window.h"
 
 namespace Engine {
     Application::Application(int screenWidth, int screenHeight, std::string windowTitle) {
-        this->m_Renderer = new RendererAPI();
+        this->m_Renderer = OpenGL();
         this->m_Window = new Window(screenWidth, screenHeight, windowTitle);
     }
 

@@ -2,6 +2,7 @@
 #include "Panels/ContentBrowserPanel.h"
 #include "ImGui/Theme.h"
 #include "ImGui/Menu.h"
+#include "Renderer/OpenGL/OpenGL.h"
 
 #include <Assets/Asset.h>
 #include <Assets/AssetDatabase.h>
@@ -76,7 +77,7 @@ int main(int argc, char* argv[]) {
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
-    RendererAPI* renderer = app.m_Renderer;
+    OpenGL* renderer = &app.m_Renderer;
 
     renderer->SetContext(app.m_Window);
 

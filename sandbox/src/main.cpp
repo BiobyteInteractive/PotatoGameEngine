@@ -1,4 +1,4 @@
-#include "Renderer/RendererAPI.h"
+#include "Renderer/OpenGL/OpenGL.h"
 #include <Core/Application.h>
 
 #include <Renderer/Color.h>
@@ -10,7 +10,7 @@ int main() {
     const int screenHeight = 450;
 
     Application app(screenWidth, screenHeight, "Sandbox");
-    RendererAPI* renderer = app.m_Renderer;
+    OpenGL* renderer = &app.m_Renderer;
 
     renderer->SetContext(app.m_Window);
 

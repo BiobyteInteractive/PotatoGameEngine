@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Renderer/RendererAPI.h"
+#include "../Renderer/OpenGL/OpenGL.h"
 
 #include <GLFW/glfw3.h>
 
@@ -21,7 +21,7 @@ namespace Engine {
             void CloseApplication();
 
         public:
-            RendererAPI* m_Renderer;
-            Window*      m_Window;
+            OpenGL  m_Renderer;
+            Window* m_Window;
     };
 }
