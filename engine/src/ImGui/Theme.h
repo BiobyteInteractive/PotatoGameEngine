@@ -1,9 +1,13 @@
 #pragma once
 
+#ifdef DLLBuild
+#define DllExport __declspec( dllexport )
+#else
+#define DllExport __declspec( dllimport )
+#endif
+
 #include <string>
 #include <imgui.h>
-
-#define DllExport __declspec( dllexport )
 
 namespace Engine {
     ImVec4 ConvertRGBAStringToImVec4(const std::string& rgbaString);

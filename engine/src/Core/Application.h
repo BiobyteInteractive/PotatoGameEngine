@@ -1,13 +1,17 @@
 #pragma once
 
+#ifdef DLLBuild
+#define DllExport __declspec( dllexport )
+#else
+#define DllExport __declspec( dllimport )
+#endif
+
 #include "../Renderer/OpenGL/OpenGL.h"
 
 #include <GLFW/glfw3.h>
 
 #include <functional>
 #include <string>
-
-#define DllExport __declspec( dllexport )
 
 namespace Engine {
     class DllExport Application {
@@ -19,6 +23,7 @@ namespace Engine {
             GLFWwindow* GetWindow();
             bool WindowShouldClose();
             void CloseApplication();
+            void SetApplicationIcon();
 
         public:
             OpenGL  m_Renderer;

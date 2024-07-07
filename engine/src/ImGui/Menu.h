@@ -1,10 +1,14 @@
 #pragma once
 
+#ifdef DLLBuild
+#define DllExport __declspec( dllexport )
+#else
+#define DllExport __declspec( dllimport )
+#endif
+
 #include <functional>
 #include <string>
 #include <vector>
-
-#define DllExport __declspec( dllexport )
 
 namespace Engine {
     typedef std::function<void()> MenuItemFn;
