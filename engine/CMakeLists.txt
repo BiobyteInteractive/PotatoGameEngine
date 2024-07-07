@@ -25,6 +25,8 @@ file(GLOB_RECURSE ENGINE_SRC
 
 add_library(${ProjectName} SHARED ${ENGINE_SRC})
 
+add_compile_definitions(DLLBuild)
+
 target_include_directories( ${ProjectName}
     PUBLIC ${VCPKG_INSTALL_DIR}/include
     PUBLIC ${efsw_SOURCE_DIR}/include

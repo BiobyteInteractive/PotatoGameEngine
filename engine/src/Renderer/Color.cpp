@@ -90,15 +90,15 @@ namespace Engine {
         return std::make_tuple(h, s, v);
     }
 
-    Color Color::black = Color(0,0,0,255);
-    Color Color::blue = Color(0, 0, 255, 255);
-    Color Color::clear = Color(0, 0, 0, 0);
-    Color Color::cyan = Color(0, 255, 255, 255);
-    Color Color::gray = Color(127, 127, 127, 255);
-    Color Color::green = Color(0, 255, 0, 255);
-    Color Color::grey = Color(127, 127, 127, 255);
-    Color Color::magenta = Color(255, 0, 255, 0);
-    Color Color::red = Color(255, 0, 0, 255);
-    Color Color::white = Color(255, 255, 255, 255);
-    Color Color::yellow = Color(255, 235, 4, 255);
+    Color Color::s_Black   = Color(0  , 0  , 0  , 255);
+    Color Color::s_Blue    = Color(0  , 0  , 255, 255);
+    Color Color::s_Clear   = Color(0  , 0  , 0  , 0  );
+    Color Color::s_Cyan    = Color(0  , 255, 255, 255);
+    Color Color::s_Gray    = Color(127, 127, 127, 255);
+    Color Color::s_Green   = Color(0  , 255, 0  , 255);
+    Color Color::s_Grey    = Color(127, 127, 127, 255);
+    Color Color::s_Magenta = Color(255, 0  , 255, 0  );
+    Color Color::s_Red     = Color(255, 0  , 0  , 255);
+    Color Color::s_White   = Color(255, 255, 255, 255);
+    Color Color::s_Yellow  = Color(255, 235, 4  , 255);
 }

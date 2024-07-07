@@ -15,8 +15,8 @@ int main() {
     renderer->SetContext(app.m_Window);
 
     while(!app.WindowShouldClose()) {
-        renderer->ClearBackground(Color(255, 235, 4, 255));
-        //renderer->ClearBackground(Color::yellow);
+        //renderer->ClearBackground(Color(0, 0, 0, 255));
+        renderer->ClearBackground(Color::s_Yellow);
 
         renderer->EndDrawing();
     }
