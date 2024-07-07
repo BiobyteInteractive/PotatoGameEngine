@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         SetDllDirectory(std::filesystem::current_path().string().c_str());
     #endif
 
-    Theme theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\Themes\\steam.toml");
+    Theme theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\Themes\\vs.toml");
     
     if (argc <= 1 || !std::filesystem::is_regular_file(argv[1])) {
         Logger::GetInstance().Error("No path to the project provided. Aborting.");
