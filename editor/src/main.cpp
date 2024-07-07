@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 
     AssetDatabase asset_db((std::filesystem::current_path() / "assets").string());
     
-    std::vector<size_t> scriptIDs = asset_db.SelectAssets("SELECT * FROM assets WHERE EXTENSION like '.wren'", 0);
+    std::vector<size_t> scriptIDs = asset_db.SelectAssets("SELECT * FROM assets WHERE EXTENSION like '.wren' AND DIRECTORY like '%editor%'", 0);
     for(const size_t& id : scriptIDs) {
         std::shared_ptr<Asset> asset = asset_db.GetAssetByID(id);
         asset->LoadAssetSync();
