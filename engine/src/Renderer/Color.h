@@ -32,6 +32,8 @@ namespace Engine {
             static Color s_Green;
             static Color s_Grey;
             static Color s_Magenta;
+            static Color s_PowderBlue;
+            static Color s_Purple;
             static Color s_Red;
             static Color s_White;
             static Color s_Yellow;

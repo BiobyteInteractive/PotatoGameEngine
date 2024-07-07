@@ -12,11 +12,10 @@ int main() {
     Application app(screenWidth, screenHeight, "Sandbox");
     OpenGL* renderer = &app.m_Renderer;
 
-    renderer->SetContext(app.m_Window);
+    renderer->SetContext(&app.m_Window);
 
     while(!app.WindowShouldClose()) {
-        renderer->ClearBackground(Color::s_Magenta);
-
+        renderer->ClearBackground(Color::s_Purple);
         renderer->EndDrawing();
     }
 

@@ -10,9 +10,8 @@
 #include "Window.h"
 
 namespace Engine {
-    Application::Application(int screenWidth, int screenHeight, std::string windowTitle) {
+    Application::Application(int screenWidth, int screenHeight, std::string windowTitle) : m_Window(screenWidth, screenHeight, windowTitle) {
         this->m_Renderer = OpenGL();
-        this->m_Window = new Window(screenWidth, screenHeight, windowTitle);
     }
 
     Application::~Application() {
@@ -20,7 +19,7 @@ namespace Engine {
     }
 
     GLFWwindow* Application::GetWindow() {
-        return this->m_Window->GetWindowHandle();
+        return this->m_Window.GetWindowHandle();
     }
 
     void Application::Update(std::function<void()> update) {
@@ -30,10 +29,10 @@ namespace Engine {
     }
 
     bool Application::WindowShouldClose() {
-        return glfwWindowShouldClose(this->m_Window->GetWindowHandle());
+        return glfwWindowShouldClose(this->m_Window.GetWindowHandle());
     }
 
     void Application::CloseApplication() {
-        glfwSetWindowShouldClose(this->m_Window->GetWindowHandle(), 1);
+        glfwSetWindowShouldClose(this->m_Window.GetWindowHandle(), 1);
     }
 }

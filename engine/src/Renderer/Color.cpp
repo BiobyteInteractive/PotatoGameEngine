@@ -90,15 +90,17 @@ namespace Engine {
         return std::make_tuple(h, s, v);
     }
 
-    Color Color::s_Black   = Color(0  , 0  , 0  , 255);
-    Color Color::s_Blue    = Color(0  , 0  , 255, 255);
-    Color Color::s_Clear   = Color(0  , 0  , 0  , 0  );
-    Color Color::s_Cyan    = Color(0  , 255, 255, 255);
-    Color Color::s_Gray    = Color(127, 127, 127, 255);
-    Color Color::s_Green   = Color(0  , 255, 0  , 255);
-    Color Color::s_Grey    = Color(127, 127, 127, 255);
-    Color Color::s_Magenta = Color(255, 0  , 255, 0  );
-    Color Color::s_Red     = Color(255, 0  , 0  , 255);
-    Color Color::s_White   = Color(255, 255, 255, 255);
-    Color Color::s_Yellow  = Color(255, 235, 4  , 255);
+    Color Color::s_Black      = Color(0  , 0  , 0  , 255);
+    Color Color::s_Blue       = Color(0  , 0  , 255, 255);
+    Color Color::s_Clear      = Color(0  , 0  , 0  , 0  );
+    Color Color::s_Cyan       = Color(0  , 255, 255, 255);
+    Color Color::s_Gray       = Color(127, 127, 127, 255);
+    Color Color::s_Green      = Color(0  , 255, 0  , 255);
+    Color Color::s_Grey       = Color(127, 127, 127, 255);
+    Color Color::s_Magenta    = Color(255, 0  , 255, 255);
+    Color Color::s_PowderBlue = Color(182, 208, 226, 255);
+    Color Color::s_Purple     = Color(90 , 99 , 156, 255);
+    Color Color::s_Red        = Color(255, 0  , 0  , 255);
+    Color Color::s_White      = Color(255, 255, 255, 255);
+    Color Color::s_Yellow     = Color(255, 235, 4  , 255);
 }

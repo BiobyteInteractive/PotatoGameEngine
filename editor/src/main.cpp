@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
 
     OpenGL* renderer = &app.m_Renderer;
 
-    renderer->SetContext(app.m_Window);
+    renderer->SetContext(&app.m_Window);
 
     ContentBrowser contentBrowser = ContentBrowser();
 

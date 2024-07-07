@@ -26,7 +26,7 @@ namespace Engine {
             void SetApplicationIcon();
 
         public:
-            OpenGL  m_Renderer;
-            Window* m_Window;
+            OpenGL m_Renderer;
+            Window m_Window;
     };
 }
