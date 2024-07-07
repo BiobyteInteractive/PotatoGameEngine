@@ -1,7 +1,3 @@
-/*
-    The RendererAPI should be an interface to be implemented by the different APIs (OpenGL, Vulkan, DirectX, Metal, WebGL, WebGPU).
-*/
-
 #pragma once
 
 #define DllExport __declspec( dllexport )
@@ -14,7 +10,7 @@
 #include "Color.h"
 
 namespace Engine {
-    class DllExport RendererAPI {
+    class RendererAPI {
         public:
             enum class API {
                 None   = 0,
@@ -45,10 +41,8 @@ namespace Engine {
             void DrawPoint(Vector3 point, Color color);
             void DrawLine(Vector3 start, Vector3 end, Color color);
 
-        private:
+        protected:
             Window* m_Window;
-        
-        private:
             static API s_API;
     };
 }
