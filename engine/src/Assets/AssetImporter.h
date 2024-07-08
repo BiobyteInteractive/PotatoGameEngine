@@ -15,6 +15,6 @@ namespace Engine {
         public:
             AssetImporter() = default;
             ~AssetImporter() = default;
-            virtual std::shared_ptr<std::vector<unsigned char>> ImportAsset(std::filesystem::path assetPath) = 0;
+            virtual std::shared_ptr<std::vector<std::byte>> ImportAsset(std::filesystem::path assetPath) = 0;
     };
 }
