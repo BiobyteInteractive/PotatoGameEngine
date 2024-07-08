@@ -30,12 +30,19 @@
 
 using namespace Engine;
 
+std::string getExecutablePath() {
+    char buffer[MAX_PATH];
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+    return std::string(buffer).substr(0, pos);
+}
+
 int main(int argc, char* argv[]) {
     #ifdef _WIN32
         SetDllDirectory(std::filesystem::current_path().string().c_str());
     #endif
 
-    Theme theme("C:\\Users\\Pedro Bentes\\Desktop\\ParagonGameEngine\\editor\\Themes\\vs.toml");
+    Theme theme((std::filesystem::path(getExecutablePath()) / "Themes\\steam.toml").string());
     
     if (argc <= 1 || !std::filesystem::is_regular_file(argv[1])) {
         Logger::GetInstance().Error("No path to the project provided. Aborting.");
