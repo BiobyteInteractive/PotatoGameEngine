@@ -31,7 +31,6 @@ Makefile
 *.VC.db
 *.opensdf
 *.workspace
-*.project
 *.tags
 *.sublime-*
 .cproject
@@ -50,3 +49,5 @@ Unix Worksheet.worksheet
 project.bbprojectdata
 Premake4.tmproj
 
+imgui.ini
+asset.db
