@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
-project(ParagonGameEngine)
+set(ProjectName "Paragon Game Engine")
+project(${ProjectName})
 
 include(FetchContent)
+include(ExternalProject)
 
 FetchContent_Declare(
   efsw
@@ -30,20 +32,20 @@ FetchContent_MakeAvailable(flecs)
 
 fetchcontent_declare(
   glm
-  git_repository https://github.com/g-truc/glm.git
+  GIT_REPOSITORY https://github.com/g-truc/glm.git
 )
 fetchcontent_makeavailable(glm)
 
 fetchcontent_declare(
   glad
-  git_repository https://github.com/Dav1dde/glad.git
+  GIT_REPOSITORY https://github.com/Dav1dde/glad.git
   SOURCE_SUBDIR "cmake"
 )
 fetchcontent_makeavailable(glad)
 
 fetchcontent_declare(
   glfw3
-  git_repository https://github.com/glfw/glfw.git
+  GIT_REPOSITORY https://github.com/glfw/glfw.git
 )
 fetchcontent_makeavailable(glfw3)
 
