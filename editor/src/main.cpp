@@ -42,7 +42,6 @@ int main(int argc, char* argv[]) {
         SetDllDirectory(std::filesystem::current_path().string().c_str());
     #endif
 
-    Theme theme((std::filesystem::path(getExecutablePath()) / "Themes\\steam.toml").string());
     
     if (argc <= 1 || !std::filesystem::is_regular_file(argv[1])) {
         Logger::GetInstance().Error("No path to the project provided. Aborting.");
@@ -74,12 +73,16 @@ int main(int argc, char* argv[]) {
     ImGuiIO& io = ::ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     ::ImGui::StyleColorsDark();
 
     Engine::ImGui::SetImGuiContext(::ImGui::GetCurrentContext());
     
-    theme.SetTheme();
+    try {
+        Theme theme((std::filesystem::path(getExecutablePath()) / "Themes\\steam.toml").string());
+        theme.SetTheme();
+    } catch(...) {}
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
@@ -101,14 +104,22 @@ int main(int argc, char* argv[]) {
             });
 
             ::ImGui::DockSpaceOverViewport(::ImGui::GetMainViewport()->ID);
-
-            renderer->ClearBackground(Color::s_Magenta);
             ::ImGui::ShowDemoWindow(&show_demo_window);
-
             contentBrowser.OnImGuiRender();
-
+            
             ::ImGui::Render();
+            renderer->ClearBackground(Color::s_Magenta);
+
             ImGui_ImplOpenGL3_RenderDrawData(::ImGui::GetDrawData());
+
+            // Update and Render additional Platform Windows
+            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+            {
+                GLFWwindow* backup_current_context = glfwGetCurrentContext();
+                ::ImGui::UpdatePlatformWindows();
+                ::ImGui::RenderPlatformWindowsDefault();
+                glfwMakeContextCurrent(backup_current_context);
+            }
 
         renderer->EndDrawing();
     }
