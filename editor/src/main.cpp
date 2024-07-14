@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
                 glfwSetWindowShouldClose(window, GLFW_TRUE);
             });
 
-            ::ImGui::DockSpaceOverViewport(::ImGui::GetMainViewport());
+            ::ImGui::DockSpaceOverViewport(::ImGui::GetMainViewport()->ID);
 
             renderer->ClearBackground(Color::s_Magenta);
             ::ImGui::ShowDemoWindow(&show_demo_window);
