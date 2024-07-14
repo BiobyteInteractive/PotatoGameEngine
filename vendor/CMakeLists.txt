@@ -78,7 +78,7 @@ file(GLOB_RECURSE IMGUI_SRC
     "backends/imgui_impl_opengl3.h"
 )
 
-add_library(imgui ${IMGUI_SRC})
+add_library(imgui STATIC ${IMGUI_SRC})
 
 add_dependencies(imgui glfw)
 
@@ -93,3 +93,4 @@ target_link_libraries(imgui
 ]])
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/vendor/imgui)
+add_subdirectory(${CMAKE_SOURCE_DIR}/vendor/glad)
