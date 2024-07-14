@@ -1,14 +1,10 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
-project(PotatoGameEngine)
+set(ProjectName "Paragon Game Engine")
+project(${ProjectName})
 
-include(FetchContent)
-
-FetchContent_Declare(
-  efsw
-  GIT_REPOSITORY https://github.com/SpartanJ/efsw.git
-)
-FetchContent_MakeAvailable(efsw)
+# Download and Setup dependencies
+add_subdirectory("vendor")
 
 add_subdirectory("engine")
 add_subdirectory("sandbox")

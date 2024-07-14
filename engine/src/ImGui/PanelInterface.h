@@ -3,10 +3,8 @@
 #include <string>
 #include <vector>
 
-#define DllExport __declspec( dllexport )
-
 namespace Engine {
-    class DllExport PanelInterface {
+    class PanelInterface {
         public:
             PanelInterface() = default;
             ~PanelInterface() = default;

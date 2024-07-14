@@ -149,7 +149,7 @@ namespace Engine {
     }
 
     void Theme::SetTheme() {
-        ImGuiStyle& style = ImGui::GetStyle();
+        ImGuiStyle& style = ::ImGui::GetStyle();
         
         style.Alpha                     = this->m_Alpha;
         style.DisabledAlpha             = this->m_DisabledAlpha;

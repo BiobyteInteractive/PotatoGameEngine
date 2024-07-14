@@ -12,25 +12,10 @@ There are 3 projects in this directory:
 - MSVC compiler and toolchain;
 - Any CMake version above 3.11
 
-The project uses VCPKG as a package manager and Ninja as a build system but both are included in the repo.
+## Build
 
-## Building
+This project uses CMake to fetch and build the dependencies. I regularly test the builds with ninja and Visual Studio.
 
-To build the project just run the script located in ".\scripts\build.ps1". If it is your first time building the project it will setup all the libraries and build the project in a build directory.
+# Known Issues
 
-When in a command line located in the root of the project simply run:
-
-```ps1
-.\scripts\build.ps1
-```
-
-## Quirks
-
-To run the editor it needs to be pointed at a project. 
-Any folder containing a file called .project and an assets directory is a valid project for now.
-
-For simplicity I'm adding a sample project and a "run_editor" script.
-
-## Contact
-
-Any issues feel free to email me at pbentes@eckle.io
+- No happy path exists when the editor has no project open.
