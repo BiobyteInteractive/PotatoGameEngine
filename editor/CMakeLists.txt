@@ -6,30 +6,37 @@ project(${ProjectName})
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-if (WIN32)
-    set (VCPKG_INSTALL_DIR "${CMAKE_SOURCE_DIR}/vendor/vcpkg/installed/x64-windows")
-else()
-    set (VCPKG_INSTALL_DIR "${CMAKE_SOURCE_DIR}/vendor/vcpkg/installed/x64-linux")
-endif()
-
 link_directories(
-    ${VCPKG_INSTALL_DIR}/lib
+    ${engine_BINARY_DIR}
     ${CMAKE_SOURCE_DIR}/vendor/lib
-    ${CMAKE_SOURCE_DIR}/build/editor
+    ${enet_BINARY_DIR}
+    ${flecs_BINARY_DIR}
+    ${glm_BINARY_DIR}
+    ${imgui_BINARY_DIR}
+    ${efsw_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/_deps/glfw3-build/src
 )
 
-file(GLOB_RECURSE EDITOR_SRC
+file(GLOB_RECURSE SANDBOX_SRC
     "src/*.cpp"
     "src/*.h"
 )
 
-add_executable(${ProjectName} ${EDITOR_SRC})
+add_executable(${ProjectName} ${SANDBOX_SRC})
+
+add_dependencies(${ProjectName} engine)
 
 target_include_directories( ${ProjectName}
-    PUBLIC ${VCPKG_INSTALL_DIR}/include
-    PUBLIC ${CMAKE_SOURCE_DIR}/engine/src
+    PUBLIC ${engine_SOURCE_DIR}/src
+    PUBLIC ${CMAKE_SOURCE_DIR}/vendor/include
     PUBLIC ${efsw_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/vendor/include
+    PUBLIC ${enet_SOURCE_DIR}/include
+    PUBLIC ${flecs_SOURCE_DIR}/include
+    PUBLIC ${glm_SOURCE_DIR}
+    PUBLIC ${toml11_SOURCE_DIR}
+    PUBLIC ${imgui_SOURCE_DIR}
+    PUBLIC ${imgui_SOURCE_DIR}/backends
+    PUBLIC ${glfw_SOURCE_DIR}/include
 )
 
 target_link_libraries(${ProjectName}
@@ -37,16 +44,8 @@ target_link_libraries(${ProjectName}
     PUBLIC imgui
 )
 
-if (WIN32)
-    file(GLOB_RECURSE vcpkg_dll
-        "${CMAKE_SOURCE_DIR}/vendor/vcpkg/installed/x64-windows/bin/*.dll"
-    )
-
-    foreach(dll ${vcpkg_dll})
-        get_filename_component(filename ${dll} NAME)
-        configure_file(${dll} "${CMAKE_SOURCE_DIR}/build/${filename}" COPYONLY)
-    endforeach()
-endif()
-
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/Assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/Themes" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+add_custom_command(TARGET ${ProjectName} 
+                   POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -DSOURCE_DIR=${CMAKE_SOURCE_DIR} -DBINARY_DIR=${CMAKE_BINARY_DIR} -DDLL_OUTPUT_DIR=${editor_BINARY_DIR} -P ${CMAKE_SOURCE_DIR}/CopyDLL.cmake 
+                   COMMENT "Copying DLL files to binary directory"
+)

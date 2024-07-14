@@ -6,15 +6,14 @@ project(${ProjectName})
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-if (WIN32)
-    set (VCPKG_INSTALL_DIR "${CMAKE_SOURCE_DIR}/vendor/vcpkg/installed/x64-windows")
-else()
-    set (VCPKG_INSTALL_DIR "${CMAKE_SOURCE_DIR}/vendor/vcpkg/installed/x64-linux")
-endif()
-
 link_directories(
-    ${VCPKG_INSTALL_DIR}/lib
     ${CMAKE_SOURCE_DIR}/vendor/lib
+    ${enet_BINARY_DIR}
+    ${flecs_BINARY_DIR}
+    ${glm_BINARY_DIR}
+    ${imgui_BINARY_DIR}
+    ${efsw_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/_deps/glfw3-build/src
 )
 
 file(GLOB_RECURSE ENGINE_SRC
@@ -24,15 +23,23 @@ file(GLOB_RECURSE ENGINE_SRC
 
 add_library(${ProjectName} SHARED ${ENGINE_SRC})
 
+add_dependencies(${ProjectName} enet flecs glm glfw imgui efsw)
+
 add_compile_definitions(DLLBuild)
 
 target_include_directories( ${ProjectName}
-    PUBLIC ${VCPKG_INSTALL_DIR}/include
+    PUBLIC ${CMAKE_SOURCE_DIR}/vendor/include
     PUBLIC ${efsw_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/vendor/include
+    PUBLIC ${enet_SOURCE_DIR}/include
+    PUBLIC ${flecs_SOURCE_DIR}/include
+    PUBLIC ${glm_SOURCE_DIR}
+    PUBLIC ${toml11_SOURCE_DIR}
+    PUBLIC ${imgui_SOURCE_DIR}
+    PUBLIC ${imgui_SOURCE_DIR}/backends
+    PUBLIC ${glfw_SOURCE_DIR}/include
 )
 
-target_link_libraries(${ProjectName} 
+target_link_libraries(${ProjectName}
     PUBLIC finch
     PUBLIC glad
     PUBLIC glfw3dll
@@ -41,27 +48,16 @@ target_link_libraries(${ProjectName}
     PUBLIC imgui
 )
 
-if (WIN32)
-    file(GLOB_RECURSE vcpkg_dll
-        "${CMAKE_SOURCE_DIR}/vendor/vcpkg/installed/x64-windows/bin/*.dll"
-    )
-
-    foreach(dll ${vcpkg_dll})
-        get_filename_component(filename ${dll} NAME)
-        configure_file(${dll} "${CMAKE_SOURCE_DIR}/build/${filename}" COPYONLY)
-    endforeach()
-endif()
-
-add_custom_command(TARGET ${ProjectName} 
-                   POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy
-                           ${CMAKE_SOURCE_DIR}/build/engine/engine.dll
-                           ${CMAKE_SOURCE_DIR}/build/engine.dll
-)
-
-add_custom_command(TARGET ${ProjectName} 
-                   POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy
-                           ${CMAKE_SOURCE_DIR}/build/_deps/efsw-build/efsw.dll
-                           ${CMAKE_SOURCE_DIR}/build/efsw.dll
-)
+#add_custom_command(TARGET ${ProjectName} 
+#                   POST_BUILD
+#                   COMMAND ${CMAKE_COMMAND} -E copy
+#                           ${CMAKE_SOURCE_DIR}/build/engine/engine.dll
+#                           ${CMAKE_SOURCE_DIR}/build/engine.dll
+#)
+#
+#add_custom_command(TARGET ${ProjectName} 
+#                   POST_BUILD
+#                   COMMAND ${CMAKE_COMMAND} -E copy
+#                           ${CMAKE_SOURCE_DIR}/build/_deps/efsw-build/efsw.dll
+#                           ${CMAKE_SOURCE_DIR}/build/efsw.dll
+#)
