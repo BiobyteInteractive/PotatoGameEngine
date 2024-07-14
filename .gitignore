@@ -52,4 +52,4 @@ Premake4.tmproj
 imgui.ini
 asset.db
 
-vendor/*/
+vendor/imgui/
