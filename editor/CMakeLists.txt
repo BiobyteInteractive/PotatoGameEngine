@@ -49,3 +49,6 @@ add_custom_command(TARGET ${ProjectName}
                    COMMAND ${CMAKE_COMMAND} -DSOURCE_DIR=${CMAKE_SOURCE_DIR} -DBINARY_DIR=${CMAKE_BINARY_DIR} -DDLL_OUTPUT_DIR=${editor_BINARY_DIR} -P ${CMAKE_SOURCE_DIR}/CopyDLL.cmake 
                    COMMENT "Copying DLL files to binary directory"
 )
+
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/Assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/Themes" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/")
