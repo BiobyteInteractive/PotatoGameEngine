@@ -34,13 +34,6 @@ fetchcontent_declare(
 fetchcontent_makeavailable(glm)
 
 fetchcontent_declare(
-  glad
-  GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-  SOURCE_SUBDIR "cmake"
-)
-fetchcontent_makeavailable(glad)
-
-fetchcontent_declare(
   glfw3
   GIT_REPOSITORY https://github.com/glfw/glfw.git
 )
@@ -55,10 +48,10 @@ FetchContent_Declare(
 
 FetchContent_Populate(imgui)
 
-# Create a custom CMakeLists.txt for ImGui
+# Create a custom CMakeLists.txt for imgui
 file(WRITE ${CMAKE_SOURCE_DIR}/vendor/imgui/CMakeLists.txt [[
 cmake_minimum_required(VERSION 3.11)
-project(ImGui)
+project(imgui)
 
 link_directories(
     "${CMAKE_SOURCE_DIR}/build/_deps/glfw3-build/src/Debug"
@@ -85,14 +78,16 @@ file(GLOB_RECURSE IMGUI_SRC
     "backends/imgui_impl_opengl3.h"
 )
 
-add_library(ImGui ${IMGUI_SRC})
+add_library(imgui ${IMGUI_SRC})
 
-target_include_directories(ImGui 
+add_dependencies(imgui glfw)
+
+target_include_directories(imgui 
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
     PUBLIC ${glfw3_SOURCE_DIR}/include
 )
 
-target_link_libraries(ImGui
+target_link_libraries(imgui
     PUBLIC glfw3dll
 )
 ]])
