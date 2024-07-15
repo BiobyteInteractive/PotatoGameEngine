@@ -47,9 +47,11 @@ int main(int argc, char* argv[]) {
     
     if (argc <= 1 || !std::filesystem::is_regular_file(argv[1])) {
         Logger::GetInstance().Info("No path to the project provided. Opening file prompt.");
-        while(projectPath.empty() || !std::filesystem::path(projectPath).has_filename()) {
-            projectPath = OpenFileDialog();
-        }
+
+        // Keep trying to open a file
+        projectPath = OpenFileDialog();
+        if(projectPath.empty() || !std::filesystem::path(projectPath).has_filename())
+            return 0;
     } else {
         projectPath = std::string(argv[1]);
     }
@@ -87,7 +89,6 @@ int main(int argc, char* argv[]) {
 
     bool show_demo_window = true;
     while(!app.WindowShouldClose()) {
-
         imgui.StartFrame();
 
         Menu::GetInstance().AddMenuItem("File/Quit", "Ctrl+Q", [window]() {
