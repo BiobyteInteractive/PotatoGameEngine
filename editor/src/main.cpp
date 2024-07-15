@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     std::string projectPath;
     
     if (argc <= 1 || !std::filesystem::is_regular_file(argv[1])) {
-        Logger::GetInstance().Error("No path to the project provided. Aborting.");
+        Logger::GetInstance().Info("No path to the project provided. Opening file prompt.");
         HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | 
         COINIT_DISABLE_OLE1DDE);
         if (SUCCEEDED(hr))
@@ -136,7 +136,7 @@ int main(int argc, char* argv[]) {
     Engine::ImGui::SetImGuiContext(::ImGui::GetCurrentContext());
     
     try {
-        Theme theme((std::filesystem::path(getExecutablePath()) / "Themes\\steam.toml").string());
+        Theme theme((std::filesystem::path(getExecutablePath()) / "Themes\\vs.toml").string());
         theme.SetTheme();
     } catch(...) {}
 
