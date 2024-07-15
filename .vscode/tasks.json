@@ -6,12 +6,17 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "${cwd}/scripts/build.ps1"
+            "command": "cd build; ninja;"
+        },
+        {
+            "label": "Run Sandbox",
+            "type": "shell",
+            "command": "cd build/sandbox; ./sandbox.exe"
         },
         {
             "label": "Run Editor",
             "type": "shell",
-            "command": "${cwd}/scripts/run_editor.ps1"
+            "command": "cd build/editor; ./editor.exe"
         }
     ]
 }
