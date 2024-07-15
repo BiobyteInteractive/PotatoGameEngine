@@ -39,6 +39,12 @@ fetchcontent_declare(
 )
 fetchcontent_makeavailable(glfw3)
 
+fetchcontent_declare(
+  assimp
+  GIT_REPOSITORY https://github.com/assimp/assimp.git
+)
+fetchcontent_makeavailable(assimp)
+
 FetchContent_Declare(
   imgui
   GIT_REPOSITORY https://github.com/ocornut/imgui.git
