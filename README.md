@@ -15,7 +15,3 @@ There are 3 projects in this directory:
 ## Build
 
 This project uses CMake to fetch and build the dependencies. I regularly test the builds with ninja and Visual Studio.
-
-# Known Issues
-
-- No happy path exists when the editor has no project open.
