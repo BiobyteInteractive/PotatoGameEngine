@@ -8,10 +8,6 @@
 #endif
 #endif
 
-#include "Theme.h"
-
-#include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
 #include <imgui.h>
 #include <GLFW/glfw3.h>
 
@@ -22,12 +18,15 @@ namespace Engine {
 
     class DllExport ImGui {
         public:
-            ImGui(GLFWwindow* window, Theme* theme);
+            ImGui(GLFWwindow* window);
             ~ImGui() = default;
 
             void OnImGuiRender(Function function);
 
             static void SetImGuiContext(::ImGuiContext* ctx);
             static ::ImGuiContext* GetImGuiContext();
+
+            void StartFrame();
+            void EndFrame();
     };
 }

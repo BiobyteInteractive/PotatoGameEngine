@@ -1,5 +1,4 @@
 #include "ImGui.h"
-#include "Theme.h"
 
 #include <GLFW/glfw3.h>
 #include <imgui_impl_glfw.h>
@@ -7,21 +6,19 @@
 #include <imgui.h>
 
 namespace Engine {
-    ImGui::ImGui(GLFWwindow* window, Theme* theme) {
+    ImGui::ImGui(GLFWwindow* window) {
         const char* glsl_version = "#version 330";
         ::IMGUI_CHECKVERSION();
         ::ImGui::CreateContext();
-        ImGuiIO& io = ::ImGui::GetIO(); (void)io;
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+        ::ImGuiIO& io = ::ImGui::GetIO(); (void)io;
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-        if(theme)
-            theme->SetTheme();
-        else    
-            ::ImGui::StyleColorsDark();
-        
-        ::ImGui_ImplGlfw_InitForOpenGL(window, true);
-        ::ImGui_ImplOpenGL3_Init(glsl_version);
+        ::ImGui::StyleColorsDark();
+
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init(glsl_version);
     }
 
     void ImGui::OnImGuiRender(Function function) {
@@ -34,5 +31,21 @@ namespace Engine {
 
     ::ImGuiContext* ImGui::GetImGuiContext() {
         return ::ImGui::GetCurrentContext();
+    }
+
+    void ImGui::StartFrame() {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ::ImGui::NewFrame();
+    }
+
+    void ImGui::EndFrame() {
+        ::ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(::ImGui::GetDrawData());
+
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ::ImGui::UpdatePlatformWindows();
+        ::ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
     }
 }

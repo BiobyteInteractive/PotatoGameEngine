@@ -125,25 +125,12 @@ int main(int argc, char* argv[]) {
         asset->UnloadAsset();
     } 
 
-    const char* glsl_version = "#version 330";
-    ::IMGUI_CHECKVERSION();
-    ::ImGui::CreateContext();
-    ImGuiIO& io = ::ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-
-    ::ImGui::StyleColorsDark();
-
-    Engine::ImGui::SetImGuiContext(::ImGui::GetCurrentContext());
-    
+    Engine::ImGui imgui = Engine::ImGui(window);
+    ::ImGui::SetCurrentContext(imgui.GetImGuiContext());
     try {
         Theme theme((std::filesystem::path(getExecutablePath()) / "Themes\\steam.toml").string());
         theme.SetTheme();
     } catch(...) {}
-
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
 
     OpenGL* renderer = &app.m_Renderer;
 
@@ -153,31 +140,20 @@ int main(int argc, char* argv[]) {
 
     bool show_demo_window = true;
     while(!app.WindowShouldClose()) {
-            ImGui_ImplOpenGL3_NewFrame();
-            ImGui_ImplGlfw_NewFrame();
-            ::ImGui::NewFrame();
 
-            Menu::GetInstance().AddMenuItem("File/Quit", "Ctrl+Q", [window]() {
-                glfwSetWindowShouldClose(window, GLFW_TRUE);
-            });
+        imgui.StartFrame();
 
-            ::ImGui::DockSpaceOverViewport(::ImGui::GetMainViewport()->ID);
-            ::ImGui::ShowDemoWindow(&show_demo_window);
-            contentBrowser.OnImGuiRender();
-            
-            ::ImGui::Render();
-            renderer->ClearBackground(Color::s_Magenta);
+        Menu::GetInstance().AddMenuItem("File/Quit", "Ctrl+Q", [window]() {
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
+        });
 
-            ImGui_ImplOpenGL3_RenderDrawData(::ImGui::GetDrawData());
+        ::ImGui::DockSpaceOverViewport(::ImGui::GetMainViewport()->ID);
+        ::ImGui::ShowDemoWindow(&show_demo_window);
+        contentBrowser.OnImGuiRender();
+        
+        renderer->ClearBackground(Color::s_Magenta);
 
-            // Update and Render additional Platform Windows
-            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-            {
-                GLFWwindow* backup_current_context = glfwGetCurrentContext();
-                ::ImGui::UpdatePlatformWindows();
-                ::ImGui::RenderPlatformWindowsDefault();
-                glfwMakeContextCurrent(backup_current_context);
-            }
+        imgui.EndFrame();
 
         renderer->EndDrawing();
     }
