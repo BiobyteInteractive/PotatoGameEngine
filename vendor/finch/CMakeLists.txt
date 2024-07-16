@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.12)
 
-project(Finch LANGUAGES "C")
+project(finch LANGUAGES "C")
 
 set(finch_warning_flags "-Wall" "-Wextra" "-Werror" "-Wno-unused-parameter")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -24,19 +24,11 @@ target_include_directories(finch PUBLIC src/include PRIVATE src/vm src/optional)
 
 target_link_libraries(finch INTERFACE m)
 
-target_compile_options(finch PRIVATE "-Wall")
-
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_options(finch PUBLIC -DDEBUG)
-endif()
-
-
 INSTALL (TARGETS finch
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
     ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
 )
-
 
 IF (NOT DEFINED SKIP_INSTALL_HEADERS)
     INSTALL(
