@@ -45,6 +45,18 @@ fetchcontent_declare(
 )
 fetchcontent_makeavailable(assimp)
 
+fetchcontent_declare(
+  nanosvg
+  GIT_REPOSITORY https://github.com/memononen/nanosvg.git
+)
+FetchContent_Populate(nanosvg)
+
+fetchcontent_declare(
+  stb
+  GIT_REPOSITORY https://github.com/nothings/stb.git
+)
+fetchcontent_makeavailable(stb)
+
 FetchContent_Declare(
   imgui
   GIT_REPOSITORY https://github.com/ocornut/imgui.git
