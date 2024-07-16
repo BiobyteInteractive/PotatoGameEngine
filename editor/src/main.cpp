@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
         });
 
         ::ImGui::DockSpaceOverViewport(::ImGui::GetMainViewport()->ID);
-        ::ImGui::ShowDemoWindow(&show_demo_window);
+        //::ImGui::ShowDemoWindow(&show_demo_window);
         contentBrowser.OnImGuiRender();
         
         renderer->ClearBackground(Color::s_Magenta);
