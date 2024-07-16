@@ -15,6 +15,7 @@ link_directories(
     ${imgui_BINARY_DIR}
     ${efsw_BINARY_DIR}
     ${CMAKE_BINARY_DIR}/_deps/glfw3-build/src
+    ${finch_BINARY_DIR}
 )
 
 file(GLOB_RECURSE SANDBOX_SRC
@@ -37,6 +38,7 @@ target_include_directories( ${ProjectName}
     PUBLIC ${imgui_SOURCE_DIR}
     PUBLIC ${imgui_SOURCE_DIR}/backends
     PUBLIC ${glfw_SOURCE_DIR}/include
+    PUBLIC ${finch_SOURCE_DIR}/src/include
 )
 
 target_link_libraries(${ProjectName}

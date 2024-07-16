@@ -22,7 +22,7 @@ add_library(finch STATIC ${finch_SRCS})
 
 target_include_directories(finch PUBLIC src/include PRIVATE src/vm src/optional)
 
-target_link_libraries(finch INTERFACE m)
+#target_link_libraries(finch INTERFACE m)
 
 INSTALL (TARGETS finch
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin

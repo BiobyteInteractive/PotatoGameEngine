@@ -112,3 +112,4 @@ target_link_libraries(imgui
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/vendor/imgui)
 add_subdirectory(${CMAKE_SOURCE_DIR}/vendor/glad)
+add_subdirectory(${CMAKE_SOURCE_DIR}/vendor/finch)
