@@ -15,8 +15,8 @@ namespace Engine {
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-        float xscale, yscale;
-        glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), &xscale, &yscale);
+        float xscale;
+        glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), &xscale, NULL);
         io.FontGlobalScale = xscale;
 
         ::ImGui::StyleColorsDark();
