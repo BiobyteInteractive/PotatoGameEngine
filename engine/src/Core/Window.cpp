@@ -1,4 +1,3 @@
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 #include <string>
@@ -32,10 +31,6 @@ namespace Engine {
         glfwSetFramebufferSizeCallback(this->m_Window, framebuffer_size_callback);
 
         glfwMakeContextCurrent(this->m_Window);
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        {
-            Logger::GetInstance().Error("Failed to initialize GLAD");
-        }
     }
 
     Window::~Window() {

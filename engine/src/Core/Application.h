@@ -8,7 +8,7 @@
 #endif
 #endif
 
-#include "../Renderer/OpenGL/OpenGL.h"
+#include "../Renderer/Renderer.h"
 
 #include <GLFW/glfw3.h>
 
@@ -28,7 +28,7 @@ namespace Engine {
             void SetApplicationIcon();
 
         public:
-            OpenGL m_Renderer;
+            Renderer m_Renderer;
             Window m_Window;
     };
 }
