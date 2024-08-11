@@ -1,0 +1,2 @@
+#!/bin/finch
+System.print("ok") // expect: ok
