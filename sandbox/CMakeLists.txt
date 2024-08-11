@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
 project(Sandbox)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 link_directories(
     ${dawn_BINARY_DIR}/third_party/glfw/src
     ${glm_BINARY_DIR}
@@ -15,6 +18,8 @@ file(GLOB_RECURSE WGPU_SRC
 add_executable(Sandbox
     ${WGPU_SRC}
 )
+
+add_dependencies(Sandbox enet flecs glm imgui efsw)
 
 target_include_directories(Sandbox
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}

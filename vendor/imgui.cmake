@@ -41,7 +41,7 @@ file(WRITE ${CMAKE_SOURCE_DIR}/vendor/imgui/CMakeLists.txt [[
 
     add_library(imgui STATIC ${IMGUI_SRC})
 
-    add_dependencies(imgui glfw)
+    add_dependencies(imgui glfw dawn_common dawn_glfw dawn_headers dawn_native_objects dawn_platform dawncpp_headers)
 
     target_include_directories(imgui 
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
