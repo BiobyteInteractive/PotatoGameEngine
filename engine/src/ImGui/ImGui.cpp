@@ -2,7 +2,7 @@
 
 #include <GLFW/glfw3.h>
 #include <imgui_impl_glfw.h>
-#include <imgui_impl_opengl3.h>
+#include <imgui_impl_wgpu.h>
 #include <imgui.h>
 
 namespace Engine {
@@ -22,7 +22,14 @@ namespace Engine {
         ::ImGui::StyleColorsDark();
 
         ImGui_ImplGlfw_InitForOpenGL(window, true);
-        ImGui_ImplOpenGL3_Init(glsl_version);
+        ImGui_ImplGlfw_InitForOther(window, true);
+
+        ImGui_ImplWGPU_InitInfo init_info;
+        init_info.Device = wgpu_device;
+        init_info.NumFramesInFlight = 3;
+        init_info.RenderTargetFormat = wgpu_preferred_fmt;
+        init_info.DepthStencilFormat = WGPUTextureFormat_Undefined;
+        ImGui_ImplWGPU_Init();
     }
 
     void ImGui::OnImGuiRender(Function function) {
@@ -38,14 +45,14 @@ namespace Engine {
     }
 
     void ImGui::StartFrame() {
-        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplWGPU_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ::ImGui::NewFrame();
     }
 
     void ImGui::EndFrame() {
         ::ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(::ImGui::GetDrawData());
+        ImGui_ImplWGPU_RenderDrawData(::ImGui::GetDrawData());
 
         GLFWwindow* backup_current_context = glfwGetCurrentContext();
         ::ImGui::UpdatePlatformWindows();

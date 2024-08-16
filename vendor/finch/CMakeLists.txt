@@ -21,7 +21,7 @@ file(GLOB vm_SRCS ${vm_DIR}/*.c)
 
 set(finch_SRCS ${vm_SRCS} ${opt_SRCS})
 
-add_library(finch ${finch_SRCS})
+add_library(finch STATIC ${finch_SRCS})
 
 target_include_directories(finch PUBLIC src/include PRIVATE src/vm src/optional)
 

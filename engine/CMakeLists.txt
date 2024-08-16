@@ -12,6 +12,7 @@ link_directories(
     ${efsw_BINARY_DIR}
     ${dawn_BINARY_DIR}/third_party/glfw/src
     ${finch_BINARY_DIR}
+    ${sqlite3_BINARY_DIR}
 )
 
 file(GLOB_RECURSE ENGINE_SRC
@@ -36,11 +37,13 @@ target_include_directories( ${ProjectName}
     PUBLIC ${dawn_SOURCE_DIR}/third_party/glfw/include
     PUBLIC ${dawn_SOURCE_DIR}/include
     PUBLIC ${dawn_BINARY_DIR}/gen/include
+
+    PUBLIC ${sqlite3_SOURCE_DIR}
 )
 
 target_link_libraries(${ProjectName}
     PUBLIC finch
-    PUBLIC glfw3
+    PUBLIC glfw
     PUBLIC dawncpp
     PUBLIC webgpu_cpp
     PUBLIC webgpu_dawn
@@ -48,4 +51,5 @@ target_link_libraries(${ProjectName}
     PUBLIC sqlite3
     PUBLIC efsw
     PUBLIC imgui
+    PUBLIC sqlite3
 )
