@@ -14,16 +14,6 @@
 namespace Engine {
     class Renderer {
         public:
-            enum class API {
-                None   = 0,
-                OpenGL = 1,
-                Vulkan = 2,
-                WebGPU = 3,
-                WebGL  = 4,
-                DX12   = 5,
-                Metal  = 6
-            };
-        public:
             ~Renderer() = default;
 
             void ClearBackground(Color color);
@@ -42,9 +32,9 @@ namespace Engine {
             // 3D Rendering Calls
             void DrawPoint(Vector3 point, Color color);
             void DrawLine(Vector3 start, Vector3 end, Color color);
+            void DrawMesh();
 
-        protected:
+        public:
             Window* m_Window;
-            static API s_API;
     };
 }
