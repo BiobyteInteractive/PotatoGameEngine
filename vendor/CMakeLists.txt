@@ -17,5 +17,4 @@ include(stb.cmake)
 include(nanosvg.cmake)
 include(miniaudio.cmake)
 
-add_subdirectory(finch)
 add_subdirectory(sqlite3)
