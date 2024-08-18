@@ -4,7 +4,7 @@ set(ProjectName "engine")
 project(${ProjectName})
 
 link_directories(
-    ${CMAKE_SOURCE_DIR}/vendor/lib
+    ${CMAKE_SOURCE_DIR}/vendor/luajit
     ${enet_BINARY_DIR}
     ${flecs_BINARY_DIR}
     ${glm_BINARY_DIR}
@@ -24,7 +24,7 @@ add_library(${ProjectName} SHARED ${ENGINE_SRC})
 add_dependencies(${ProjectName} enet flecs glm glfw imgui efsw)
 
 target_include_directories( ${ProjectName}
-    PUBLIC ${CMAKE_SOURCE_DIR}/vendor/include
+    PUBLIC ${CMAKE_SOURCE_DIR}/vendor/luajit
     PUBLIC ${efsw_SOURCE_DIR}/include
     PUBLIC ${enet_SOURCE_DIR}/include
     PUBLIC ${flecs_SOURCE_DIR}/include
