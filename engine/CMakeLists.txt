@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 set(ProjectName "engine")
 project(${ProjectName})
 
+set(CMAKE_DEBUG_POSTFIX "")
+
 link_directories(
     ${CMAKE_SOURCE_DIR}/vendor/luajit
     ${enet_BINARY_DIR}
@@ -20,7 +22,7 @@ file(GLOB_RECURSE ENGINE_SRC
     "src/*.h"
 )
 
-add_library(${ProjectName} SHARED ${ENGINE_SRC})
+add_library(${ProjectName} STATIC ${ENGINE_SRC})
 add_dependencies(${ProjectName} enet flecs glm glfw imgui efsw)
 
 target_include_directories( ${ProjectName}
@@ -45,6 +47,7 @@ target_link_libraries(${ProjectName}
     PUBLIC lua51
     PUBLIC luajit
     PUBLIC minilua
+    PUBLIC flecs
     PUBLIC glfw
     PUBLIC dawncpp
     PUBLIC webgpu_cpp

@@ -53,7 +53,7 @@ file(WRITE ${CMAKE_SOURCE_DIR}/vendor/imgui/CMakeLists.txt [[
     )
 
     target_link_libraries(imgui
-        PUBLIC glfw3
+        PUBLIC glfw
         PUBLIC dawncpp
         PUBLIC webgpu_cpp
         PUBLIC webgpu_dawn

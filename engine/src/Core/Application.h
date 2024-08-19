@@ -4,27 +4,18 @@
 #define DllExport __declspec( dllexport )
 #endif
 
-#include "../Renderer/Renderer.h"
+#include "../Assets/AssetDatabase.h"
+#include "SceneManager.h"
 
 #include <GLFW/glfw3.h>
-
-#include <functional>
-#include <string>
 
 namespace Engine {
     class DllExport Application {
         public:
-            Application(int screenWidth, int screenHeight, std::string windowTitle);
+            Application();
             ~Application();
-
-            void  Update(std::function<void()> update);
-            GLFWwindow* GetWindow();
-            bool WindowShouldClose();
-            void CloseApplication();
-            void SetApplicationIcon();
-
         public:
-            Renderer m_Renderer;
-            Window m_Window;
+            AssetDatabase m_AssetDatabase;
+            SceneManager  m_SceneManager;
     };
 }

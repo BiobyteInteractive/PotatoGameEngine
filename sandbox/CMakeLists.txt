@@ -4,6 +4,7 @@ project(Sandbox)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_DEBUG_POSTFIX "")
 
 link_directories(
     ${dawn_BINARY_DIR}/third_party/glfw/src
