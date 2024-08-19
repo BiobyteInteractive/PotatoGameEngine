@@ -42,13 +42,14 @@ target_include_directories( ${ProjectName}
 )
 
 target_link_libraries(${ProjectName}
-    PUBLIC finch
+    PUBLIC lua51
+    PUBLIC luajit
+    PUBLIC minilua
     PUBLIC glfw
     PUBLIC dawncpp
     PUBLIC webgpu_cpp
     PUBLIC webgpu_dawn
     PUBLIC webgpu_glfw
-    PUBLIC sqlite3
     PUBLIC efsw
     PUBLIC imgui
     PUBLIC sqlite3
