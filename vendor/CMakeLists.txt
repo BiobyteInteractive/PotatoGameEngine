@@ -16,5 +16,6 @@ include(assimp.cmake)
 include(stb.cmake)
 include(nanosvg.cmake)
 include(miniaudio.cmake)
+include(luajit.cmake)
 
 add_subdirectory(sqlite3)
