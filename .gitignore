@@ -53,3 +53,4 @@ imgui.ini
 asset.db
 
 vendor/imgui/
+vendor/luajit/
