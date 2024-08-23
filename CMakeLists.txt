@@ -15,6 +15,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_FOLDER /)
 
 add_subdirectory("engine")
+add_subdirectory("runtime")
 add_subdirectory("sandbox")
 #IF (WIN32)
 #    add_subdirectory("editor")
