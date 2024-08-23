@@ -13,10 +13,10 @@
 #include <vector>
 
 namespace Engine {
-    class DllExport AssetImporter {
+    class DllExport IAssetImporter {
         public:
-            AssetImporter() = default;
-            ~AssetImporter() = default;
+            IAssetImporter() = default;
+            ~IAssetImporter() = default;
             virtual std::shared_ptr<std::vector<std::byte>> ImportAsset(std::filesystem::path assetPath) = 0;
     };
 }
