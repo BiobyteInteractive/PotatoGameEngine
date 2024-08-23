@@ -6,7 +6,7 @@ project(${ProjectName})
 set(CMAKE_DEBUG_POSTFIX "")
 
 link_directories(
-    ${luajit_BINARY_DIR}/src
+    ${lua_BINARY_DIR}
     ${enet_BINARY_DIR}
     ${flecs_BINARY_DIR}
     ${glm_BINARY_DIR}
@@ -23,10 +23,10 @@ file(GLOB_RECURSE ENGINE_SRC
 )
 
 add_library(${ProjectName} STATIC ${ENGINE_SRC})
-add_dependencies(${ProjectName} luajit enet flecs glm glfw imgui efsw)
+add_dependencies(${ProjectName} lua enet flecs glm glfw imgui efsw)
 
 target_include_directories( ${ProjectName}
-    PUBLIC ${luajit_BINARY_DIR}/src
+    PUBLIC ${lua_SOURCE_DIR}/src
     PUBLIC ${efsw_SOURCE_DIR}/include
     PUBLIC ${enet_SOURCE_DIR}/include
     PUBLIC ${flecs_SOURCE_DIR}/include
@@ -44,7 +44,7 @@ target_include_directories( ${ProjectName}
 )
 
 target_link_libraries(${ProjectName}
-    PUBLIC libluajit
+    PUBLIC lua
     PUBLIC flecs
     PUBLIC glfw
     PUBLIC dawncpp
