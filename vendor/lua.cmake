@@ -4,7 +4,7 @@ include(FetchContent)
 FetchContent_Declare(
   lua
   GIT_REPOSITORY https://github.com/lua/lua.git
-  GIT_TAG        origin/master
+  GIT_TAG        origin/v5.4
   SOURCE_DIR ${CMAKE_SOURCE_DIR}/vendor/lua
 )
 
@@ -26,4 +26,5 @@ target_include_directories(lua
 )
 ]])
 
+set(CMAKE_DEBUG_POSTFIX "")
 add_subdirectory(${lua_SOURCE_DIR})
