@@ -1,6 +1,7 @@
 #include "Logger.h"
 
 #include <chrono>
+#include <format>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -33,9 +34,13 @@ namespace Engine {
         struct tm now_tm;
         localtime_s(&now_tm, &now_time_t);
 
-        this->m_OutputStream << "[" << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S") << "] [" << mode << "] " << message << std::endl;
-        std::cout            << "[" << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S") << "] [" << mode << "] " << message << std::endl;
-        this->m_OutputStream.flush(); 
+        std::ostringstream oss;
+        oss << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
 
+        std::string log = std::format("[{}] [{}] {}", oss.str(), mode, message);
+
+        this->m_OutputStream << log << std::endl;
+        std::cout            << log << std::endl;
+        this->m_OutputStream.flush(); 
     }
 }
